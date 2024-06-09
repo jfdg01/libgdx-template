@@ -14,8 +14,8 @@ import com.kandclay.*;
 public class GameScreen extends BaseScreen {
     private GameState gameState;
     private AnimatedActor animatedActor;
-    private Skin skin = assetManager.get("skin/default/skin/uiskin.json", Skin.class);
-    private AnimationHandler animationHandler;
+    private final Skin skin = assetManager.get("skin/default/skin/uiskin.json", Skin.class);
+    private final AnimationHandler animationHandler;
     private SnapshotArray<Animation<TextureRegion>> animations;
     private int currentAnimationIndex;
 
@@ -28,7 +28,7 @@ public class GameScreen extends BaseScreen {
     private void loadAnimations() {
         animations = new SnapshotArray<>();
         String[] textures = {
-            "earth", "venus", "saturn", "moon", "sun", "uranus", "jupiter", "mars", "neptune", "mercury"
+            "sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "saturn", "uranus", "neptune",
         };
         for (String texture : textures) {
             animations.add(animationHandler.createAnimationFromAssetManager(texture));
@@ -94,8 +94,10 @@ public class GameScreen extends BaseScreen {
     }
 
     private void switchAnimation() {
+        animatedActor.setVisible(false); // Hide the current actor
         currentAnimationIndex = (currentAnimationIndex + 1) % animations.size;
         animatedActor.setAnimation(animations.get(currentAnimationIndex));
+        animatedActor.setVisible(true); // Show the new actor
     }
 
     public void pauseGame() {

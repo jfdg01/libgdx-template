@@ -14,11 +14,12 @@ public class AnimatedActor extends Actor {
         this.stateTime = 0f;
         TextureRegion initialFrame = animation.getKeyFrame(0);
         setBounds(getX(), getY(), initialFrame.getRegionWidth(), initialFrame.getRegionHeight());
+        setVisible(false); // Initially set to not visible
     }
 
     public void setAnimation(Animation<TextureRegion> newAnimation) {
         this.animation = newAnimation;
-        this.stateTime = 0f; // Reset the state time to start the new animation from the beginning
+        this.stateTime = 0f;
         TextureRegion initialFrame = newAnimation.getKeyFrame(0);
         setBounds(getX(), getY(), initialFrame.getRegionWidth(), initialFrame.getRegionHeight());
     }
@@ -31,6 +32,7 @@ public class AnimatedActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        if (!isVisible()) return; // Only draw if visible
         super.draw(batch, parentAlpha);
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
         batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
