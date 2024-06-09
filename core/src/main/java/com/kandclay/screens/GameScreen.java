@@ -13,11 +13,9 @@ import com.kandclay.*;
 
 public class GameScreen extends BaseScreen {
     private GameState gameState;
-    private AnimatedActor animatedActor;
     private final Skin skin = assetManager.get("skin/default/skin/uiskin.json", Skin.class);
     private final AnimationHandler animationHandler;
-    private SnapshotArray<Animation<TextureRegion>> animations;
-    private int currentAnimationIndex;
+    private SnapshotArray<AnimatedActor> animatedActors;
 
     public GameScreen(MyAssetManager assetManager, AudioManager audioManager, AnimationHandler animationHandler) {
         super(assetManager, audioManager);
@@ -26,41 +24,25 @@ public class GameScreen extends BaseScreen {
     }
 
     private void loadAnimations() {
-        animations = new SnapshotArray<>();
+        animatedActors = new SnapshotArray<>();
         String[] textures = {
             "sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "saturn", "uranus", "neptune",
         };
         for (String texture : textures) {
-            animations.add(animationHandler.createAnimationFromAssetManager(texture));
+            Animation<TextureRegion> animation = animationHandler.createAnimationFromAssetManager(texture);
+            AnimatedActor actor = new AnimatedActor(animation);
+            animatedActors.add(actor);
+            stage.addActor(actor);
         }
 
-        currentAnimationIndex = 0;
+        arrangeActorsInCircle(animatedActors);
     }
 
     @Override
     public void show() {
         super.show();
         loadAnimations();
-        animatedActor = new AnimatedActor(animations.get(currentAnimationIndex));
-        centerActor(animatedActor);
-        stage.addActor(animatedActor);
-
-        createButton();
-
         Gdx.input.setInputProcessor(stage); // Set the stage as the input processor
-    }
-
-    private void createButton() {
-        TextButton button = new TextButton("Switch Animation", skin);
-        button.setPosition(50, 50);
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                switchAnimation();
-            }
-        });
-
-        stage.addActor(button);
     }
 
     private void clearScreen() {
@@ -92,22 +74,26 @@ public class GameScreen extends BaseScreen {
         // Game update logic
     }
 
-    private void switchAnimation() {
-        animatedActor.setVisible(false); // Hide the current actor
-        currentAnimationIndex = (currentAnimationIndex + 1) % animations.size;
-        animatedActor.setAnimation(animations.get(currentAnimationIndex));
-        centerActor(animatedActor);
-        animatedActor.setVisible(true); // Show the new actor
+    private void arrangeActorsInCircle(SnapshotArray<AnimatedActor> actors) {
+        float centerX = stage.getWidth() / 2;
+        float centerY = stage.getHeight() / 2;
+        float radius = Math.min(stage.getWidth(), stage.getHeight()) / 3;
+
+        int numberOfActors = actors.size;
+        for (int i = 0; i < numberOfActors; i++) {
+            float angle = (float) (2 * Math.PI * i / numberOfActors);
+            float x = centerX + radius * (float) Math.cos(angle);
+            float y = centerY + radius * (float) Math.sin(angle);
+            AnimatedActor actor = actors.get(i);
+            actor.setPosition(x - actor.getWidth() / 2, y - actor.getHeight() / 2);
+            actor.setVisible(true); // Make all actors visible
+        }
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        centerActor(animatedActor);
-    }
-
-    private void centerActor(AnimatedActor actor) {
-        actor.setPosition((stage.getWidth() - actor.getWidth()) / 2, (stage.getHeight() - actor.getHeight()) / 2);
+        arrangeActorsInCircle(animatedActors); // Rearrange actors on resize
     }
 
     public void pauseGame() {
@@ -122,4 +108,5 @@ public class GameScreen extends BaseScreen {
         gameState = GameState.GAME_OVER;
     }
 }
+
 
