@@ -6,34 +6,36 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class FirstScreen implements Screen {
     private final MyAssetManager myAssetManager;
-    private final SpriteBatch batch;
     private final AnimationManager animationManager;
     private Animation<TextureRegion> animation;
-    private float stateTime;
+    private Stage stage;
 
     public FirstScreen(Main game) {
         this.myAssetManager = game.getAssetManager();
-        this.batch = game.getBatch();
         this.animationManager = game.getAnimationManager();
     }
 
     @Override
     public void show() {
-        animation = animationManager.createAnimationFromAssetManager("earth");
-        stateTime = 0f;
+        stage = new Stage(new ScreenViewport());
+        Animation<TextureRegion> planetAnimation = animationManager.createAnimationFromAssetManager("earth");
+
+        AnimatedActor planetActor = new AnimatedActor(planetAnimation);
+        planetActor.setPosition(100, 100);
+        planetActor.setSize(50, 50);
+
+        stage.addActor(planetActor);
     }
 
     @Override
     public void render(float delta) {
-        stateTime += delta;
-        TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
-
-        batch.begin();
-        batch.draw(currentFrame, 50, 50);
-        batch.end();
+        stage.act();
+        stage.draw();
     }
 
     @Override
@@ -59,6 +61,6 @@ public class FirstScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
-        batch.dispose();
+        stage.dispose();
     }
 }

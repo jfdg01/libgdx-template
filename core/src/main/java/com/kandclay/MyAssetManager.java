@@ -2,11 +2,13 @@ package com.kandclay;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 
 public class MyAssetManager implements Disposable {
-    private AssetManager assetManager;
+    private final AssetManager assetManager;
 
     public MyAssetManager() {
         assetManager = new AssetManager();

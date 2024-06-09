@@ -9,13 +9,13 @@ public class Main extends Game {
     private AnimationManager animationManager;
     private SpriteBatch batch;
 
-    @Override
     public void create() {
+
         myAssetManager = new MyAssetManager();
         myAssetManager.finishLoading();
-
-        batch = new SpriteBatch();
         animationManager = new AnimationManager(myAssetManager);
+        batch = new SpriteBatch();
+
         setScreen(new FirstScreen(this));
     }
 
