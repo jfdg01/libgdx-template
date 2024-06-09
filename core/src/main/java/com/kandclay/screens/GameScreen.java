@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.kandclay.*;
 
@@ -16,6 +13,7 @@ public class GameScreen extends BaseScreen {
     private final Skin skin = assetManager.get("skin/default/skin/uiskin.json", Skin.class);
     private final AnimationHandler animationHandler;
     private SnapshotArray<AnimatedActor> animatedActors;
+    private float elapsedTime;
 
     public GameScreen(MyAssetManager assetManager, AudioManager audioManager, AnimationHandler animationHandler) {
         super(assetManager, audioManager);
@@ -34,8 +32,6 @@ public class GameScreen extends BaseScreen {
             animatedActors.add(actor);
             stage.addActor(actor);
         }
-
-        arrangeActorsInCircle(animatedActors);
     }
 
     @Override
@@ -53,35 +49,24 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         clearScreen();
-
+        elapsedTime += delta; // Update elapsed time
+        updateGame(delta);
         super.render(delta);
-
-        switch (gameState) {
-            case RUNNING:
-                // Implement game logic when running
-                updateGame(delta);
-                break;
-            case PAUSED:
-                // Implement logic when the game is paused
-                break;
-            case GAME_OVER:
-                // Implement logic when the game is over
-                break;
-        }
     }
 
     private void updateGame(float delta) {
-        // Game update logic
+        // Update the positions of the actors to rotate around the center
+        arrangeActorsInCircle(animatedActors, elapsedTime);
     }
 
-    private void arrangeActorsInCircle(SnapshotArray<AnimatedActor> actors) {
+    private void arrangeActorsInCircle(SnapshotArray<AnimatedActor> actors, float elapsedTime) {
         float centerX = stage.getWidth() / 2;
         float centerY = stage.getHeight() / 2;
         float radius = Math.min(stage.getWidth(), stage.getHeight()) / 3;
 
         int numberOfActors = actors.size;
         for (int i = 0; i < numberOfActors; i++) {
-            float angle = (float) (2 * Math.PI * i / numberOfActors);
+            float angle = (float) (2 * Math.PI * i / numberOfActors) + elapsedTime * Constants.Game.ROTATION_SPEED;
             float x = centerX + radius * (float) Math.cos(angle);
             float y = centerY + radius * (float) Math.sin(angle);
             AnimatedActor actor = actors.get(i);
@@ -93,7 +78,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        arrangeActorsInCircle(animatedActors); // Rearrange actors on resize
+        arrangeActorsInCircle(animatedActors, elapsedTime); // Rearrange actors on resize
     }
 
     public void pauseGame() {
@@ -108,5 +93,7 @@ public class GameScreen extends BaseScreen {
         gameState = GameState.GAME_OVER;
     }
 }
+
+
 
 

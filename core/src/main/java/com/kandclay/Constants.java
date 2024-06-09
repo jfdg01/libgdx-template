@@ -6,6 +6,10 @@ public class Constants {
         public static final int NUM_ROWS = 28; // Number of rows in the sprite sheet
         public static final float FRAME_DURATION = 5f / 100f; // Duration of each frame
     }
+
+    public static class Game {
+        public static final float ROTATION_SPEED = 0.2f; // Speed factor for rotation
+    }
 }
 
 
