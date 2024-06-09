@@ -5,18 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Main extends Game {
-    private MyAssetManager myAssetManager;
-    private AnimationManager animationManager;
-    private SpriteBatch batch;
 
     public void create() {
-
-        myAssetManager = new MyAssetManager();
-        myAssetManager.finishLoading();
-        animationManager = new AnimationManager(myAssetManager);
-        batch = new SpriteBatch();
-
-        setScreen(new FirstScreen(this));
+        setScreen(new FirstScreen());
     }
 
     @Override
@@ -42,19 +33,6 @@ public class Main extends Game {
     @Override
     public void dispose() {
         super.dispose(); // This will call dispose() on the active screen
-        myAssetManager.dispose();
-        batch.dispose();
-    }
 
-    public MyAssetManager getAssetManager() {
-        return myAssetManager;
-    }
-
-    public AnimationManager getAnimationManager() {
-        return animationManager;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
     }
 }

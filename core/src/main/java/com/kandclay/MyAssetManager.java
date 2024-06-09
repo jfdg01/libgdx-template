@@ -1,53 +1,61 @@
 package com.kandclay;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.utils.Disposable;
 
-public class MyAssetManager implements IAssetManager {
-    private final AssetManager assetManager;
+public class MyAssetManager implements Disposable {
+    private static MyAssetManager instance;
+    private AssetManager assetManager;
 
-    public MyAssetManager() {
+    // Private constructor to prevent instantiation
+    private MyAssetManager() {
         assetManager = new AssetManager();
-        loadAssets();
     }
 
-    @Override
-    public void loadAssets() {
-        // Load skins
-        // assetManager.load("skin/default/raw/pack.json", Skin.class);
-
-        // Load textures
-        assetManager.load("sprites/anim/earth.png", Texture.class);
-        assetManager.load("sprites/anim/jupiter.png", Texture.class);
-        assetManager.load("sprites/anim/mars.png", Texture.class);
-        assetManager.load("sprites/anim/mercury.png", Texture.class);
-        assetManager.load("sprites/anim/moon.png", Texture.class);
-        assetManager.load("sprites/anim/neptune.png", Texture.class);
-        assetManager.load("sprites/anim/saturn.png", Texture.class);
-        assetManager.load("sprites/anim/sun.png", Texture.class);
-        assetManager.load("sprites/anim/uranus.png", Texture.class);
-        assetManager.load("sprites/anim/venus.png", Texture.class);
-
-        // Load atlases
-        assetManager.load("sprites/atlas/solarSystemAssets.atlas", TextureAtlas.class);
+    // Thread-safe method to get the singleton instance
+    public static synchronized MyAssetManager getInstance() {
+        if (instance == null) {
+            instance = new MyAssetManager();
+        }
+        return instance;
     }
 
+    // Load an asset with the given file name and type
+    public synchronized void load(String asset, Class<?> type) {
+        if (!assetManager.isLoaded(asset)) {
+            assetManager.load(asset, type);
+        }
+    }
+
+    // Get a loaded asset
+    public synchronized <T> T get(String asset, Class<T> type) {
+        if (assetManager.isLoaded(asset)) {
+            return assetManager.get(asset, type);
+        } else {
+            throw new RuntimeException("Asset not loaded: " + asset);
+        }
+    }
+
+    // Finish loading all assets
     public void finishLoading() {
         assetManager.finishLoading();
     }
 
-    @Override
-    public <T> T get(String fileName, Class<T> type) {
-        return assetManager.get(fileName, type);
+    // Check if all assets are loaded
+    public boolean update() {
+        return assetManager.update();
     }
 
+    // Get the progress of asset loading (between 0 and 1)
+    public float getProgress() {
+        return assetManager.getProgress();
+    }
+
+    // Dispose of the asset manager and all its assets
     @Override
     public void dispose() {
         assetManager.dispose();
     }
 }
-

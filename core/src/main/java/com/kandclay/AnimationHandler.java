@@ -1,19 +1,26 @@
 package com.kandclay;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
+
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class AnimationManager {
-    private MyAssetManager myAssetManager;
+public class AnimationHandler {
+    private AssetManager assetManager;
 
-    public AnimationManager(MyAssetManager myAssetManager) {
-        this.myAssetManager = myAssetManager;
+    public AnimationHandler(AssetManager assetManager) {
+        this.assetManager = assetManager;
     }
 
     public Animation<TextureRegion> createAnimationFromAssetManager(String regionName) {
         String name = "sprites/anim/" + regionName + ".png";
-        Texture texture = myAssetManager.get(name, Texture.class);
+        Texture texture = assetManager.get(name, Texture.class);
 
         int frameWidth = texture.getWidth() / Constants.Animation.NUM_COLS;
         int frameHeight = texture.getHeight() / Constants.Animation.NUM_ROWS;
@@ -30,4 +37,10 @@ public class AnimationManager {
 
         return new Animation<TextureRegion>(Constants.Animation.FRAME_DURATION, animationFrames);
     }
+
+    // Additional helper method to handle animations created by hand
+    public Animation<TextureRegion> createAnimationFromCustomFrames(TextureRegion[] frames, float frameDuration) {
+        return new Animation<TextureRegion>(frameDuration, frames);
+    }
 }
+
