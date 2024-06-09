@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 
-public class MyAssetManager implements Disposable {
+public class MyAssetManager implements IAssetManager {
     private final AssetManager assetManager;
 
     public MyAssetManager() {
@@ -15,7 +15,8 @@ public class MyAssetManager implements Disposable {
         loadAssets();
     }
 
-    private void loadAssets() {
+    @Override
+    public void loadAssets() {
         // Load skins
         // assetManager.load("skin/default/raw/pack.json", Skin.class);
 
@@ -39,6 +40,7 @@ public class MyAssetManager implements Disposable {
         assetManager.finishLoading();
     }
 
+    @Override
     public <T> T get(String fileName, Class<T> type) {
         return assetManager.get(fileName, type);
     }
