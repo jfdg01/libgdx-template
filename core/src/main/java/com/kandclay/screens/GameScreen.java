@@ -1,20 +1,25 @@
 package com.kandclay.screens;
 
-import com.kandclay.GameState;
-import com.kandclay.MyAssetManager;
-import com.kandclay.AudioManager;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.kandclay.*;
 
 public class GameScreen extends BaseScreen {
     private GameState gameState;
+    private Animation<TextureRegion> earthAnimation;
 
-    public GameScreen(MyAssetManager assetManager, AudioManager audioManager) {
+    public GameScreen(MyAssetManager assetManager, AudioManager audioManager, AnimationHandler animationHandler) {
         super(assetManager, audioManager);
         gameState = GameState.RUNNING;
+        this.earthAnimation = animationHandler.createAnimationFromAssetManager("earth");
     }
 
     @Override
     public void show() {
-        // Implement game screen setup
+        super.show();
+        AnimatedActor earthActor = new AnimatedActor(earthAnimation);
+        earthActor.setPosition(stage.getWidth() / 2, stage.getHeight() / 2);
+        stage.addActor(earthActor);
     }
 
     @Override

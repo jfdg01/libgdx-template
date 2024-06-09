@@ -17,6 +17,7 @@ public class Main extends ApplicationAdapter {
     private AudioManager audioManager;
     private ConfigurationManager configManager;
     private ScreenManager screenManager;
+    private AnimationHandler animationHandler;
 
     @Override
     public void create() {
@@ -30,9 +31,12 @@ public class Main extends ApplicationAdapter {
         // Initialize screen manager
         screenManager = new ScreenManager(assetManager, audioManager, configManager);
 
+        // Initialize animation handler
+        animationHandler = new AnimationHandler(assetManager);
+
         // Load initial assets and set the initial screen
         loadInitialAssets();
-        screenManager.setScreen(ScreenType.MENU);
+        screenManager.setScreen(ScreenType.GAME);
     }
 
     private void loadInitialAssets() {

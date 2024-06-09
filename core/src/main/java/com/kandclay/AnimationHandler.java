@@ -12,9 +12,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationHandler {
-    private AssetManager assetManager;
+    private MyAssetManager assetManager;
 
-    public AnimationHandler(AssetManager assetManager) {
+    public AnimationHandler(MyAssetManager assetManager) {
         this.assetManager = assetManager;
     }
 

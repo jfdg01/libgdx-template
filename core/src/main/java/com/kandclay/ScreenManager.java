@@ -8,11 +8,13 @@ public class ScreenManager {
     private AudioManager audioManager;
     private ConfigurationManager configManager;
     private BaseScreen currentScreen;
+    private AnimationHandler animationHandler;
 
     public ScreenManager(MyAssetManager assetManager, AudioManager audioManager, ConfigurationManager configManager) {
         this.assetManager = assetManager;
         this.audioManager = audioManager;
         this.configManager = configManager;
+        this.animationHandler = new AnimationHandler(assetManager);
     }
 
     public void setScreen(ScreenType screenType) {
@@ -24,7 +26,7 @@ public class ScreenManager {
                 currentScreen = new MenuScreen(assetManager, audioManager);
                 break;
             case GAME:
-                currentScreen = new GameScreen(assetManager, audioManager);
+                currentScreen = new GameScreen(assetManager, audioManager, animationHandler);
                 break;
             case OPTIONS:
                 currentScreen = new OptionsScreen(assetManager, audioManager);
