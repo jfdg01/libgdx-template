@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -11,6 +12,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.Random;
 
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -38,6 +42,9 @@ public class Main extends ApplicationAdapter {
         // Load initial assets and set the initial screen
         loadInitialAssets();
         screenManager.setScreen(ScreenType.GAME);
+
+        // Load and play random music
+        loadAndPlayRandomMusic();
     }
 
     private void loadInitialAssets() {
@@ -60,6 +67,25 @@ public class Main extends ApplicationAdapter {
         }
         assetManager.load("skin/default/skin/uiskin.json", Skin.class);
         assetManager.finishLoading();
+    }
+
+    private void loadAndPlayRandomMusic() {
+        FileHandle dirHandle = Gdx.files.internal("music");
+        Array<FileHandle> musicFiles = new Array<>(dirHandle.list("ogg"));
+
+        // Load all music files
+        for (FileHandle file : musicFiles) {
+            audioManager.loadMusic(file.path());
+        }
+
+        // Select a random music file
+        Random random = new Random();
+        int randomIndex = random.nextInt(musicFiles.size);
+        String randomMusicFile = musicFiles.get(randomIndex).path();
+
+        // Play the random music file in a loop
+        Gdx.app.log("Playing music", randomMusicFile);
+        audioManager.playMusic(randomMusicFile, true);
     }
 
     @Override
@@ -89,10 +115,18 @@ public class Main extends ApplicationAdapter {
     @Override
     public void dispose() {
         // Dispose of all resources
-        screenManager.dispose();
-        assetManager.dispose();
-        audioManager.dispose();
-        batch.dispose();
+        if (screenManager != null) {
+            screenManager.dispose();
+        }
+        if (assetManager != null) {
+            assetManager.dispose();
+        }
+        if (audioManager != null) {
+            audioManager.dispose();
+        }
+        if (batch != null) {
+            batch.dispose();
+        }
     }
 }
 

@@ -42,7 +42,7 @@ public class GameScreen extends BaseScreen {
         super.show();
         loadAnimations();
         animatedActor = new AnimatedActor(animations.get(currentAnimationIndex));
-        animatedActor.setPosition(stage.getWidth() / 2, stage.getHeight() / 2);
+        centerActor(animatedActor);
         stage.addActor(animatedActor);
 
         createButton();
@@ -70,7 +70,6 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-
         clearScreen();
 
         super.render(delta);
@@ -97,7 +96,18 @@ public class GameScreen extends BaseScreen {
         animatedActor.setVisible(false); // Hide the current actor
         currentAnimationIndex = (currentAnimationIndex + 1) % animations.size;
         animatedActor.setAnimation(animations.get(currentAnimationIndex));
+        centerActor(animatedActor);
         animatedActor.setVisible(true); // Show the new actor
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        centerActor(animatedActor);
+    }
+
+    private void centerActor(AnimatedActor actor) {
+        actor.setPosition((stage.getWidth() - actor.getWidth()) / 2, (stage.getHeight() - actor.getHeight()) / 2);
     }
 
     public void pauseGame() {
@@ -112,3 +122,4 @@ public class GameScreen extends BaseScreen {
         gameState = GameState.GAME_OVER;
     }
 }
+
