@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -41,10 +42,23 @@ public class Main extends ApplicationAdapter {
 
     private void loadInitialAssets() {
         // Load essential assets
-        assetManager.load("sprites/anim/earth.png", Texture.class);
-        assetManager.load("sprites/anim/venus.png", Texture.class);
-        //assetManager.load("sounds/jump.wav", Sound.class);
-        //assetManager.load("music/background.mp3", Music.class);
+        String[] textures = {
+            "sprites/static/backgroundSimple.png",
+            "sprites/anim/earth.png",
+            "sprites/anim/saturn.png",
+            "sprites/anim/moon.png",
+            "sprites/anim/sun.png",
+            "sprites/anim/uranus.png",
+            "sprites/anim/venus.png",
+            "sprites/anim/jupiter.png",
+            "sprites/anim/mars.png",
+            "sprites/anim/neptune.png",
+            "sprites/anim/mercury.png",
+        };
+        for (String texture : textures) {
+            assetManager.load(texture, Texture.class);
+        }
+        assetManager.load("skin/default/skin/uiskin.json", Skin.class);
         assetManager.finishLoading();
     }
 
