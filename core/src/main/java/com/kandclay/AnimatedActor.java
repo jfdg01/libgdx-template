@@ -16,6 +16,13 @@ public class AnimatedActor extends Actor {
         setBounds(getX(), getY(), initialFrame.getRegionWidth(), initialFrame.getRegionHeight());
     }
 
+    public void setAnimation(Animation<TextureRegion> newAnimation) {
+        this.animation = newAnimation;
+        this.stateTime = 0f; // Reset the state time to start the new animation from the beginning
+        TextureRegion initialFrame = newAnimation.getKeyFrame(0);
+        setBounds(getX(), getY(), initialFrame.getRegionWidth(), initialFrame.getRegionHeight());
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);

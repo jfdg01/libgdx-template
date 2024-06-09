@@ -42,6 +42,7 @@ public class Main extends ApplicationAdapter {
     private void loadInitialAssets() {
         // Load essential assets
         assetManager.load("sprites/anim/earth.png", Texture.class);
+        assetManager.load("sprites/anim/venus.png", Texture.class);
         //assetManager.load("sounds/jump.wav", Sound.class);
         //assetManager.load("music/background.mp3", Music.class);
         assetManager.finishLoading();
