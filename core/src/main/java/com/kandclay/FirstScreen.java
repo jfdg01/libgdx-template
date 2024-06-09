@@ -1,28 +1,38 @@
 package com.kandclay;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class FirstScreen implements Screen {
-    private MyAssetManager myAssetManager;
-    private SpriteBatch batch;
-    private Texture earthTexture;
+    private final MyAssetManager myAssetManager;
+    private final SpriteBatch batch;
+    private final AnimationManager animationManager;
+    private Animation<TextureRegion> animation;
+    private float stateTime;
 
-    public FirstScreen(MyAssetManager myAssetManager, SpriteBatch batch) {
-        this.myAssetManager = myAssetManager;
-        this.batch = batch;
+    public FirstScreen(Main game) {
+        this.myAssetManager = game.getAssetManager();
+        this.batch = game.getBatch();
+        this.animationManager = game.getAnimationManager();
     }
 
     @Override
     public void show() {
-        earthTexture = myAssetManager.get("sprites/anim/earth.png", Texture.class);
+        animation = animationManager.createAnimationFromAssetManager("earth");
+        stateTime = 0f;
     }
 
     @Override
     public void render(float delta) {
+        stateTime += delta;
+        TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
+
         batch.begin();
-        batch.draw(earthTexture, 50, 50);
+        batch.draw(currentFrame, 50, 50);
         batch.end();
     }
 
