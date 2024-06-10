@@ -11,6 +11,13 @@ public class Constants {
         public static final float ROTATION_SPEED = 1f / 20f; // Speed factor for rotation
         public static final float LERP_FACTOR = 0.1f; // Factor for interpolation
     }
+
+    public static class Buttons {
+        public static final int BUTTON_WIDTH = 100;
+        public static final int BUTTON_HEIGHT = 80;
+        public static final int PADDING = 5;
+        public static final int SLIDER_WIDTH = 300;
+    }
 }
 
 

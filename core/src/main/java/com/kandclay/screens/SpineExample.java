@@ -23,6 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import static com.kandclay.Constants.Buttons.*;
+
 public class SpineExample extends ApplicationAdapter {
     OrthographicCamera camera;
     SpriteBatch batch;
@@ -38,7 +40,7 @@ public class SpineExample extends ApplicationAdapter {
     TextButton modeButton;
     BitmapFont font;
 
-    boolean isLooping = false;
+    boolean isLooping = true; // Set initial state to automatic (looping)
 
     // Counter for the "in" event
     int inEventCounter = 0;
@@ -102,7 +104,7 @@ public class SpineExample extends ApplicationAdapter {
             }
         });
 
-        modeButton = new TextButton("Pasar a modo automatico", skin);
+        modeButton = new TextButton("Pasar a modo manual", skin); // Set initial button text to switch to manual
         modeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -142,18 +144,18 @@ public class SpineExample extends ApplicationAdapter {
         });
 
         Table controlTable = new Table();
-        controlTable.top().right();
+        controlTable.top().left();
         controlTable.setFillParent(true);
-        controlTable.add(speed1xButton).pad(5);
-        controlTable.add(speed2xButton).pad(5);
-        controlTable.add(speed3xButton).pad(5);
+        controlTable.add(speed1xButton).size(BUTTON_WIDTH, BUTTON_HEIGHT).pad(PADDING).row();
+        controlTable.add(speed2xButton).size(BUTTON_WIDTH, BUTTON_HEIGHT).pad(PADDING).row();
+        controlTable.add(speed3xButton).size(BUTTON_WIDTH, BUTTON_HEIGHT).pad(PADDING).row();
 
         Table table = new Table();
         table.setFillParent(true);
         table.bottom();
-        table.add(slider).width(400).padBottom(10);
+        table.add(slider).width(SLIDER_WIDTH).padBottom(PADDING);
         table.row();
-        table.add(modeButton).padBottom(10);
+        table.add(modeButton).padBottom(PADDING);
 
         stage.addActor(controlTable);
         stage.addActor(table);
