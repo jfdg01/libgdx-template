@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.AnimationStateData;
 import com.esotericsoftware.spine.Skeleton;
@@ -33,6 +36,9 @@ public class SpineExample extends ApplicationAdapter {
 
     Stage stage;
     Slider slider;
+    TextButton modeButton;
+
+    boolean isLooping = false;
 
     @Override
     public void create() {
@@ -53,9 +59,8 @@ public class SpineExample extends ApplicationAdapter {
 
         AnimationStateData stateData = new AnimationStateData(skeletonData);
         state = new AnimationState(stateData);
-        state.setAnimation(0, "animation", true); // Set to false to prevent autoplay
+        state.setAnimation(0, "animation", true);  // Loop the animation by default
 
-        // Add event listener
         state.addListener(new AnimationState.AnimationStateAdapter() {
             @Override
             public void event(AnimationState.TrackEntry entry, com.esotericsoftware.spine.Event event) {
@@ -70,20 +75,38 @@ public class SpineExample extends ApplicationAdapter {
         Gdx.input.setInputProcessor(stage);
 
         Skin skin = new Skin(Gdx.files.internal("skin/default/skin/uiskin.json"));
-        slider = new Slider(0, 1, 0.01f, false, skin); // Slider range from 0 to 1
-        slider.addListener(event -> {
-            if (!slider.isDragging()) {
-                float progress = slider.getValue();
-                float animationDuration = state.getCurrent(0).getAnimation().getDuration();
-                state.getCurrent(0).setTrackTime(progress * animationDuration);
+        slider = new Slider(0, 1, 0.01f, false, skin);
+        slider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!isLooping) {
+                    float progress = slider.getValue();
+                    float animationDuration = state.getCurrent(0).getAnimation().getDuration();
+                    state.getCurrent(0).setTrackTime(progress * animationDuration);
+                }
             }
-            return false;
+        });
+
+        modeButton = new TextButton("Pasar a modo automatico", skin);
+        modeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                isLooping = !isLooping;
+                if (isLooping) {
+                    modeButton.setText("Pasar a modo manual");
+                    state.setAnimation(0, "animation", true);  // Restart the animation loop
+                } else {
+                    modeButton.setText("Pasar a modo automatico");
+                }
+            }
         });
 
         Table table = new Table();
         table.setFillParent(true);
         table.bottom();
-        table.add(slider).width(400); // Adjust width as needed
+        table.add(slider).width(400).padBottom(10);
+        table.row();
+        table.add(modeButton).padBottom(10);
 
         stage.addActor(table);
 
@@ -96,7 +119,10 @@ public class SpineExample extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        state.update(Gdx.graphics.getDeltaTime());
+        if (isLooping) {
+            state.update(Gdx.graphics.getDeltaTime());
+        }
+
         state.apply(skeleton);
         skeleton.updateWorldTransform();
 
