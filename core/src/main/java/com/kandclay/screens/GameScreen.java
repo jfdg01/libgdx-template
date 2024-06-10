@@ -94,8 +94,3 @@ public class GameScreen extends BaseScreen {
         gameState = GameState.GAME_OVER;
     }
 }
-
-
-
-
-
