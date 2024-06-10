@@ -14,6 +14,7 @@ public class GameScreen extends BaseScreen {
     private final AnimationHandler animationHandler;
     private SnapshotArray<AnimatedActor> animatedActors;
     private float elapsedTime;
+    private static final float ROTATION_SPEED = 0.05f; // Speed factor for rotation
 
     public GameScreen(MyAssetManager assetManager, AudioManager audioManager, AnimationHandler animationHandler) {
         super(assetManager, audioManager);
@@ -49,7 +50,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         clearScreen();
-        elapsedTime += delta; // Update elapsed time
+        elapsedTime += delta; // Update elapsed time with rotation speed factor
         updateGame(delta);
         super.render(delta);
     }
@@ -66,11 +67,11 @@ public class GameScreen extends BaseScreen {
 
         int numberOfActors = actors.size;
         for (int i = 0; i < numberOfActors; i++) {
-            float angle = (float) (2 * Math.PI * i / numberOfActors) + elapsedTime * Constants.Game.ROTATION_SPEED;
+            float angle = (float) (2 * Math.PI * i / numberOfActors);
             float x = centerX + radius * (float) Math.cos(angle);
             float y = centerY + radius * (float) Math.sin(angle);
             AnimatedActor actor = actors.get(i);
-            actor.setPosition(x - actor.getWidth() / 2, y - actor.getHeight() / 2);
+            actor.setTargetPosition(x - actor.getWidth() / 2, y - actor.getHeight() / 2);
             actor.setVisible(true); // Make all actors visible
         }
     }
@@ -93,6 +94,7 @@ public class GameScreen extends BaseScreen {
         gameState = GameState.GAME_OVER;
     }
 }
+
 
 
 

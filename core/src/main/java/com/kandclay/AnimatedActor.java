@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class AnimatedActor extends Actor {
     private Animation<TextureRegion> animation;
     private float stateTime;
+    private float targetX, targetY;
 
     public AnimatedActor(Animation<TextureRegion> animation) {
         this.animation = animation;
@@ -24,10 +25,20 @@ public class AnimatedActor extends Actor {
         setBounds(getX(), getY(), initialFrame.getRegionWidth(), initialFrame.getRegionHeight());
     }
 
+    public void setTargetPosition(float x, float y) {
+        this.targetX = x;
+        this.targetY = y;
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
         stateTime += delta;
+
+        // Interpolate to target position
+        float newX = getX() + (targetX - getX()) * Constants.Game.LERP_FACTOR;
+        float newY = getY() + (targetY - getY()) * Constants.Game.LERP_FACTOR;
+        setPosition(newX, newY);
     }
 
     @Override

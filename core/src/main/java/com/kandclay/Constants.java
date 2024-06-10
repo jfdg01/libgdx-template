@@ -8,7 +8,8 @@ public class Constants {
     }
 
     public static class Game {
-        public static final float ROTATION_SPEED = 0.2f; // Speed factor for rotation
+        public static final float ROTATION_SPEED = 1f / 20f; // Speed factor for rotation
+        public static final float LERP_FACTOR = 0.1f; // Factor for interpolation
     }
 }
 
