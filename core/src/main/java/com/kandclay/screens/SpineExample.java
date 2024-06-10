@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -22,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.esotericsoftware.spine.Bone;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class SpineExample extends ApplicationAdapter {
     OrthographicCamera camera;
@@ -37,8 +36,18 @@ public class SpineExample extends ApplicationAdapter {
     Stage stage;
     Slider slider;
     TextButton modeButton;
+    BitmapFont font;
 
     boolean isLooping = false;
+
+    // Counter for the "in" event
+    int inEventCounter = 0;
+
+    // Flag to track if "in" event has been triggered in the current cycle
+    boolean inEventTriggered = false;
+
+    // Speed multiplier for the animation
+    float speedMultiplier = 1f;
 
     @Override
     public void create() {
@@ -48,7 +57,6 @@ public class SpineExample extends ApplicationAdapter {
         renderer.setPremultipliedAlpha(true);
         debugRenderer = new SkeletonRendererDebug();
 
-        // Load the Spine atlas and JSON
         atlas = new TextureAtlas(Gdx.files.internal("spine/skeleton.atlas"));
         SkeletonJson json = new SkeletonJson(atlas);
         SkeletonData skeletonData = json.readSkeletonData(Gdx.files.internal("spine/skeleton.json"));
@@ -64,8 +72,10 @@ public class SpineExample extends ApplicationAdapter {
         state.addListener(new AnimationState.AnimationStateAdapter() {
             @Override
             public void event(AnimationState.TrackEntry entry, com.esotericsoftware.spine.Event event) {
-                if ("in".equals(event.getData().getName())) {
-                    System.out.println("Event 'in' triggered!");
+                if ("in".equals(event.getData().getName()) && !inEventTriggered) {
+                    inEventCounter++;
+                    inEventTriggered = true;  // Mark event as triggered
+                    System.out.println("Event 'in' triggered! Counter: " + inEventCounter);
                 }
             }
         });
@@ -83,6 +93,11 @@ public class SpineExample extends ApplicationAdapter {
                     float progress = slider.getValue();
                     float animationDuration = state.getCurrent(0).getAnimation().getDuration();
                     state.getCurrent(0).setTrackTime(progress * animationDuration);
+
+                    // Reset the event trigger flag if the slider is moved back past the trigger point
+                    if (progress < 0.5f) {
+                        inEventTriggered = false;
+                    }
                 }
             }
         });
@@ -101,6 +116,38 @@ public class SpineExample extends ApplicationAdapter {
             }
         });
 
+        // Speed control buttons
+        TextButton speed1xButton = new TextButton("1x", skin);
+        speed1xButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                speedMultiplier = 1f;
+            }
+        });
+
+        TextButton speed2xButton = new TextButton("2x", skin);
+        speed2xButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                speedMultiplier = 2f;
+            }
+        });
+
+        TextButton speed3xButton = new TextButton("3x", skin);
+        speed3xButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                speedMultiplier = 3f;
+            }
+        });
+
+        Table controlTable = new Table();
+        controlTable.top().right();
+        controlTable.setFillParent(true);
+        controlTable.add(speed1xButton).pad(5);
+        controlTable.add(speed2xButton).pad(5);
+        controlTable.add(speed3xButton).pad(5);
+
         Table table = new Table();
         table.setFillParent(true);
         table.bottom();
@@ -108,10 +155,14 @@ public class SpineExample extends ApplicationAdapter {
         table.row();
         table.add(modeButton).padBottom(10);
 
+        stage.addActor(controlTable);
         stage.addActor(table);
 
         // Set up the camera
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        // Initialize font
+        font = new BitmapFont();
     }
 
     @Override
@@ -120,7 +171,7 @@ public class SpineExample extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (isLooping) {
-            state.update(Gdx.graphics.getDeltaTime());
+            state.update(Gdx.graphics.getDeltaTime() * speedMultiplier);
         }
 
         state.apply(skeleton);
@@ -131,6 +182,8 @@ public class SpineExample extends ApplicationAdapter {
 
         batch.begin();
         renderer.draw(batch, skeleton);
+        // Render the counter in the top right corner
+        font.draw(batch, "Counter: " + inEventCounter, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 10);
         batch.end();
 
         stage.act(Gdx.graphics.getDeltaTime());
@@ -159,5 +212,6 @@ public class SpineExample extends ApplicationAdapter {
         atlas.dispose();
         batch.dispose();
         stage.dispose();
+        font.dispose();
     }
 }
