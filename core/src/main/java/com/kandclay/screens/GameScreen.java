@@ -22,6 +22,10 @@ import com.kandclay.managers.MyAssetManager;
 import com.kandclay.utils.Constants;
 import com.kandclay.utils.GameState;
 
+/**
+ * NOT BEING USED ATM
+ */
+
 public class GameScreen extends BaseScreen {
     private GameState gameState;
     private final Skin skin;
@@ -29,12 +33,10 @@ public class GameScreen extends BaseScreen {
     private final SpineAnimationHandler spineAnimationHandler;
     private SnapshotArray<SpineAnimatedActor> spineActors;
     private float elapsedTime;
-
-    // Additional fields from SpineExample
     private Slider slider;
     private TextButton modeButton;
     private BitmapFont font;
-    private boolean isLooping = true; // Set initial state to automatic (looping)
+    private boolean isLooping = true;
     private int inEventCounter = 0;
     private boolean inEventTriggered = false;
     private float speedMultiplier = 1f;

@@ -16,37 +16,40 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.esotericsoftware.spine.*;
 
+import com.kandclay.handlers.SpineAnimationHandler;
+import com.kandclay.utils.Constants;
 import com.kandclay.utils.Constants.Buttons;
 import com.kandclay.managers.*;
 
 public class SpineExampleScreen extends BaseScreen {
-    OrthographicCamera camera;
-    SpriteBatch batch;
-    SkeletonRenderer renderer;
-    SkeletonRendererDebug debugRenderer;
+    private OrthographicCamera camera;
+    private SpriteBatch batch;
+    private SkeletonRenderer renderer;
+    private SkeletonRendererDebug debugRenderer;
+    private SpineAnimationHandler spineAnimationHandler;
 
-    TextureAtlas atlas;
-    Skeleton skeleton;
-    AnimationState state;
+    private Skeleton skeleton;
+    private AnimationState state;
 
-    Stage stage;
-    Slider slider;
-    TextButton modeButton;
-    BitmapFont font;
+    private Stage stage;
+    private Slider slider;
+    private TextButton modeButton;
+    private BitmapFont font;
 
-    boolean isLooping = true; // Set initial state to automatic (looping)
+    private boolean isLooping = true; // Set initial state to automatic (looping)
 
     // Counter for the "in" event
-    int inEventCounter = 0;
+    private int inEventCounter = 0;
 
     // Flag to track if "in" event has been triggered in the current cycle
-    boolean inEventTriggered = false;
+    private boolean inEventTriggered = false;
 
     // Speed multiplier for the animation
-    float speedMultiplier = 1f;
+    private float speedMultiplier = 1f;
 
-    public SpineExampleScreen(MyAssetManager assetManager, AudioManager audioManager) {
+    public SpineExampleScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler) {
         super(assetManager, audioManager);
+        this.spineAnimationHandler = spineAnimationHandler;
     }
 
     @Override
@@ -57,28 +60,7 @@ public class SpineExampleScreen extends BaseScreen {
         renderer.setPremultipliedAlpha(true);
         debugRenderer = new SkeletonRendererDebug();
 
-        atlas = new TextureAtlas(Gdx.files.internal("spine/skeleton.atlas"));
-        SkeletonJson json = new SkeletonJson(atlas);
-        SkeletonData skeletonData = json.readSkeletonData(Gdx.files.internal("spine/skeleton.json"));
-
-        skeleton = new Skeleton(skeletonData);
-        setSkeletonPosition();
-        skeleton.setScale(4f, 4f);
-
-        AnimationStateData stateData = new AnimationStateData(skeletonData);
-        state = new AnimationState(stateData);
-        state.setAnimation(0, "animation", true);  // Loop the animation by default
-
-        state.addListener(new AnimationState.AnimationStateAdapter() {
-            @Override
-            public void event(AnimationState.TrackEntry entry, com.esotericsoftware.spine.Event event) {
-                if ("in".equals(event.getData().getName()) && !inEventTriggered) {
-                    inEventCounter++;
-                    inEventTriggered = true;  // Mark event as triggered
-                    System.out.println("Event 'in' triggered! Counter: " + inEventCounter);
-                }
-            }
-        });
+        initializeAnimations();
 
         // Set up the UI
         stage = new Stage(new ScreenViewport());
@@ -144,16 +126,16 @@ public class SpineExampleScreen extends BaseScreen {
         Table controlTable = new Table();
         controlTable.top().left();
         controlTable.setFillParent(true);
-        controlTable.add(speed1xButton).size(Buttons.BUTTON_WIDTH, Buttons.BUTTON_HEIGHT).pad(Buttons.PADDING).row();
-        controlTable.add(speed2xButton).size(Buttons.BUTTON_WIDTH, Buttons.BUTTON_HEIGHT).pad(Buttons.PADDING).row();
-        controlTable.add(speed3xButton).size(Buttons.BUTTON_WIDTH, Buttons.BUTTON_HEIGHT).pad(Buttons.PADDING).row();
+        controlTable.add(speed1xButton).size(Constants.Buttons.BUTTON_WIDTH, Constants.Buttons.BUTTON_HEIGHT).pad(Constants.Buttons.PADDING).row();
+        controlTable.add(speed2xButton).size(Constants.Buttons.BUTTON_WIDTH, Constants.Buttons.BUTTON_HEIGHT).pad(Constants.Buttons.PADDING).row();
+        controlTable.add(speed3xButton).size(Constants.Buttons.BUTTON_WIDTH, Constants.Buttons.BUTTON_HEIGHT).pad(Constants.Buttons.PADDING).row();
 
         Table table = new Table();
         table.setFillParent(true);
         table.bottom();
-        table.add(slider).width(Buttons.SLIDER_WIDTH).padBottom(Buttons.PADDING);
+        table.add(slider).width(Constants.Buttons.SLIDER_WIDTH).padBottom(Constants.Buttons.PADDING);
         table.row();
-        table.add(modeButton).padBottom(Buttons.PADDING);
+        table.add(modeButton).padBottom(Constants.Buttons.PADDING);
 
         stage.addActor(controlTable);
         stage.addActor(table);
@@ -163,6 +145,30 @@ public class SpineExampleScreen extends BaseScreen {
 
         // Initialize font
         font = new BitmapFont();
+    }
+
+    private void initializeAnimations() {
+        String atlasPath = "spine/skeleton.atlas";
+        String skeletonPath = "spine/skeleton.json";
+
+        skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
+        state = spineAnimationHandler.createAnimationState(skeleton);
+        skeleton.setScale(4f, 4f);
+
+        setSkeletonPosition();
+
+        state.setAnimation(0, "animation", true);  // Loop the animation by default
+
+        state.addListener(new AnimationState.AnimationStateAdapter() {
+            @Override
+            public void event(AnimationState.TrackEntry entry, com.esotericsoftware.spine.Event event) {
+                if ("in".equals(event.getData().getName()) && !inEventTriggered) {
+                    inEventCounter++;
+                    inEventTriggered = true;  // Mark event as triggered
+                    System.out.println("Event 'in' triggered! Counter: " + inEventCounter);
+                }
+            }
+        });
     }
 
     @Override
@@ -209,7 +215,6 @@ public class SpineExampleScreen extends BaseScreen {
 
     @Override
     public void dispose() {
-        atlas.dispose();
         batch.dispose();
         stage.dispose();
         font.dispose();

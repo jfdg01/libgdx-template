@@ -31,7 +31,7 @@ public class ScreenManager {
                 break;
             case GAME:
                 //currentScreen = new GameScreen(assetManager, audioManager, spriteSheetAnimationHandler, spineAnimationHandler);
-                currentScreen = new SpineExampleScreen(assetManager, audioManager);
+                currentScreen = new SpineExampleScreen(assetManager, audioManager, spineAnimationHandler);
                 break;
             case OPTIONS:
                 currentScreen = new OptionsScreen(assetManager, audioManager);
