@@ -1,6 +1,6 @@
 package com.kandclay.managers;
 
-import com.kandclay.handlers.AnimationHandler;
+import com.kandclay.handlers.SpriteSheetAnimationHandler;
 import com.kandclay.utils.ScreenType;
 import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.screens.*;
@@ -10,14 +10,14 @@ public class ScreenManager {
     private AudioManager audioManager;
     private ConfigurationManager configManager;
     private BaseScreen currentScreen;
-    private AnimationHandler animationHandler;
+    private SpriteSheetAnimationHandler spriteSheetAnimationHandler;
     private SpineAnimationHandler spineAnimationHandler;
 
     public ScreenManager(MyAssetManager assetManager, AudioManager audioManager, ConfigurationManager configManager) {
         this.assetManager = assetManager;
         this.audioManager = audioManager;
         this.configManager = configManager;
-        this.animationHandler = new AnimationHandler(assetManager);
+        this.spriteSheetAnimationHandler = new SpriteSheetAnimationHandler(assetManager);
         this.spineAnimationHandler = new SpineAnimationHandler(assetManager);
     }
 
@@ -30,7 +30,8 @@ public class ScreenManager {
                 currentScreen = new MenuScreen(assetManager, audioManager);
                 break;
             case GAME:
-                currentScreen = new GameScreen(assetManager, audioManager, animationHandler, spineAnimationHandler);
+                //currentScreen = new GameScreen(assetManager, audioManager, spriteSheetAnimationHandler, spineAnimationHandler);
+                currentScreen = new SpineExampleScreen(assetManager, audioManager);
                 break;
             case OPTIONS:
                 currentScreen = new OptionsScreen(assetManager, audioManager);

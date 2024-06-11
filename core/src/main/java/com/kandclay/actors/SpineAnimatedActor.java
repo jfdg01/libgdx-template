@@ -40,5 +40,29 @@ public class SpineAnimatedActor extends Actor {
     public void setAnimation(String animationName, boolean loop) {
         state.setAnimation(0, animationName, loop);
     }
+
+    public Skeleton getSkeleton() {
+        return skeleton;
+    }
+
+    public void setSkeleton(Skeleton skeleton) {
+        this.skeleton = skeleton;
+    }
+
+    public AnimationState getAnimationState() {
+        return state;
+    }
+
+    public void setAnimationState(AnimationState state) {
+        this.state = state;
+    }
+
+    public SkeletonRenderer getRenderer() {
+        return renderer;
+    }
+
+    public void setRenderer(SkeletonRenderer renderer) {
+        this.renderer = renderer;
+    }
 }
 

@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.kandclay.utils.Constants;
 import com.kandclay.managers.MyAssetManager;
 
-public class AnimationHandler {
+public class SpriteSheetAnimationHandler {
     private MyAssetManager assetManager;
 
-    public AnimationHandler(MyAssetManager assetManager) {
+    public SpriteSheetAnimationHandler(MyAssetManager assetManager) {
         this.assetManager = assetManager;
     }
 

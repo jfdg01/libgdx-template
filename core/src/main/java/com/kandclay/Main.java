@@ -9,7 +9,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
-import com.kandclay.handlers.AnimationHandler;
+import com.kandclay.handlers.SpriteSheetAnimationHandler;
 import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.managers.AudioManager;
 import com.kandclay.managers.ConfigurationManager;
@@ -26,7 +26,7 @@ public class Main extends ApplicationAdapter {
     private AudioManager audioManager;
     private ConfigurationManager configManager;
     private ScreenManager screenManager;
-    private AnimationHandler animationHandler;
+    private SpriteSheetAnimationHandler spriteSheetAnimationHandler;
     private SpineAnimationHandler spineAnimationHandler;
 
     @Override
@@ -35,7 +35,7 @@ public class Main extends ApplicationAdapter {
         assetManager = MyAssetManager.getInstance();
         audioManager = AudioManager.getInstance();
         screenManager = new ScreenManager(assetManager, audioManager, configManager);
-        animationHandler = new AnimationHandler(assetManager);
+        spriteSheetAnimationHandler = new SpriteSheetAnimationHandler(assetManager);
         spineAnimationHandler = new SpineAnimationHandler(assetManager);
 
         loadInitialAssets();
