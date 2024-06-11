@@ -1,25 +1,31 @@
-package com.kandclay.screens;
+package com.kandclay;
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.esotericsoftware.spine.AnimationState;
+import com.esotericsoftware.spine.AnimationStateData;
+import com.esotericsoftware.spine.Skeleton;
+import com.esotericsoftware.spine.SkeletonData;
+import com.esotericsoftware.spine.SkeletonJson;
+import com.esotericsoftware.spine.SkeletonRenderer;
+import com.esotericsoftware.spine.SkeletonRendererDebug;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.esotericsoftware.spine.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
-import com.kandclay.utils.Constants.Buttons;
-import com.kandclay.managers.*;
+import static com.kandclay.utils.Constants.Buttons.*;
 
-public class SpineExampleScreen extends BaseScreen {
+public class SpineExample extends ApplicationAdapter {
     OrthographicCamera camera;
     SpriteBatch batch;
     SkeletonRenderer renderer;
@@ -45,12 +51,8 @@ public class SpineExampleScreen extends BaseScreen {
     // Speed multiplier for the animation
     float speedMultiplier = 1f;
 
-    public SpineExampleScreen(MyAssetManager assetManager, AudioManager audioManager) {
-        super(assetManager, audioManager);
-    }
-
     @Override
-    public void show() {
+    public void create() {
         camera = new OrthographicCamera();
         batch = new SpriteBatch();
         renderer = new SkeletonRenderer();
@@ -144,16 +146,16 @@ public class SpineExampleScreen extends BaseScreen {
         Table controlTable = new Table();
         controlTable.top().left();
         controlTable.setFillParent(true);
-        controlTable.add(speed1xButton).size(Buttons.BUTTON_WIDTH, Buttons.BUTTON_HEIGHT).pad(Buttons.PADDING).row();
-        controlTable.add(speed2xButton).size(Buttons.BUTTON_WIDTH, Buttons.BUTTON_HEIGHT).pad(Buttons.PADDING).row();
-        controlTable.add(speed3xButton).size(Buttons.BUTTON_WIDTH, Buttons.BUTTON_HEIGHT).pad(Buttons.PADDING).row();
+        controlTable.add(speed1xButton).size(BUTTON_WIDTH, BUTTON_HEIGHT).pad(PADDING).row();
+        controlTable.add(speed2xButton).size(BUTTON_WIDTH, BUTTON_HEIGHT).pad(PADDING).row();
+        controlTable.add(speed3xButton).size(BUTTON_WIDTH, BUTTON_HEIGHT).pad(PADDING).row();
 
         Table table = new Table();
         table.setFillParent(true);
         table.bottom();
-        table.add(slider).width(Buttons.SLIDER_WIDTH).padBottom(Buttons.PADDING);
+        table.add(slider).width(SLIDER_WIDTH).padBottom(PADDING);
         table.row();
-        table.add(modeButton).padBottom(Buttons.PADDING);
+        table.add(modeButton).padBottom(PADDING);
 
         stage.addActor(controlTable);
         stage.addActor(table);
@@ -166,12 +168,12 @@ public class SpineExampleScreen extends BaseScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (isLooping) {
-            state.update(delta * speedMultiplier);
+            state.update(Gdx.graphics.getDeltaTime() * speedMultiplier);
         }
 
         state.apply(skeleton);
@@ -186,7 +188,7 @@ public class SpineExampleScreen extends BaseScreen {
         font.draw(batch, "Counter: " + inEventCounter, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 10);
         batch.end();
 
-        stage.act(delta);
+        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
         // debugRenderer.draw(skeleton);
