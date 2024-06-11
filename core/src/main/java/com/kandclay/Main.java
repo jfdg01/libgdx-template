@@ -16,7 +16,7 @@ import com.kandclay.managers.ConfigurationManager;
 import com.kandclay.managers.MyAssetManager;
 import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
-import com.kandclay.utils.ScreenType;
+import com.kandclay.utils.Constants.ScreenType;
 
 import java.util.Random;
 
@@ -39,7 +39,7 @@ public class Main extends ApplicationAdapter {
         spineAnimationHandler = new SpineAnimationHandler(assetManager);
 
         loadInitialAssets();
-        screenManager.setScreen(ScreenType.GAME);
+        screenManager.setScreen(ScreenType.MENU);
         loadAndPlayRandomMusic();
     }
 

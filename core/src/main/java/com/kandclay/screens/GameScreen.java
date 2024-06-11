@@ -20,7 +20,7 @@ import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.managers.AudioManager;
 import com.kandclay.managers.MyAssetManager;
 import com.kandclay.utils.Constants;
-import com.kandclay.utils.GameState;
+import com.kandclay.utils.Constants.GameState;
 
 /**
  * NOT BEING USED ATM
@@ -46,7 +46,7 @@ public class GameScreen extends BaseScreen {
         gameState = GameState.RUNNING;
         this.spriteSheetAnimationHandler = spriteSheetAnimationHandler;
         this.spineAnimationHandler = spineAnimationHandler;
-        this.skin = assetManager.get("skin/default/skin/uiskin.json", Skin.class);
+        this.skin = assetManager.get(Constants.Skin.JSON, Skin.class);
         initializeStage();
         initializeAnimations();
         initializeUI();

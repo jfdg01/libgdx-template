@@ -1,9 +1,9 @@
 package com.kandclay.managers;
 
 import com.kandclay.handlers.SpriteSheetAnimationHandler;
-import com.kandclay.utils.ScreenType;
 import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.screens.*;
+import com.kandclay.utils.Constants.ScreenType;
 
 public class ScreenManager {
     private MyAssetManager assetManager;
@@ -29,9 +29,11 @@ public class ScreenManager {
             case MENU:
                 currentScreen = new MenuScreen(assetManager, audioManager);
                 break;
-            case GAME:
-                //currentScreen = new GameScreen(assetManager, audioManager, spriteSheetAnimationHandler, spineAnimationHandler);
-                currentScreen = new SpineExampleScreen(assetManager, audioManager, spineAnimationHandler);
+            case KNIFE1:
+                currentScreen = new SpineKnife1Screen(assetManager, audioManager, spineAnimationHandler);
+                break;
+            case KNIFE2:
+                currentScreen = new SpineKnife2Screen(assetManager, audioManager, spineAnimationHandler);
                 break;
             case OPTIONS:
                 currentScreen = new OptionsScreen(assetManager, audioManager);

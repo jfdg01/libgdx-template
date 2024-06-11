@@ -17,7 +17,7 @@ import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.utils.Constants;
 import com.kandclay.managers.*;
 
-public class SpineExampleScreen extends BaseScreen {
+public class SpineKnife1Screen extends BaseScreen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private SkeletonRenderer renderer;
@@ -37,7 +37,7 @@ public class SpineExampleScreen extends BaseScreen {
     private boolean inEventTriggered = false;
     private float speedMultiplier = 1f;
 
-    public SpineExampleScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler) {
+    public SpineKnife1Screen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler) {
         super(assetManager, audioManager);
         this.spineAnimationHandler = spineAnimationHandler;
     }
@@ -57,7 +57,7 @@ public class SpineExampleScreen extends BaseScreen {
         // Set up the UI
         Gdx.input.setInputProcessor(stage);
 
-        Skin skin = assetManager.get("skin/default/skin/uiskin.json", Skin.class);
+        Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
         slider = new Slider(0, 1, 0.01f, false, skin);
         slider.addListener(new ChangeListener() {
             @Override

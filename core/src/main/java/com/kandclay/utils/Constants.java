@@ -25,8 +25,27 @@ public class Constants {
         public static final String PNG = "spine/knifePlanet.png";
     }
 
+    public static class KnifePlanet2 {
+        public static final String ATLAS = "spine/knifePlanet2.atlas";
+        public static final String JSON = "spine/knifePlanet2.json";
+        public static final String PNG = "spine/knifePlanet2.png";
+    }
+
     public static class Skin {
         public static final String JSON = "skin/default/skin/uiskin.json";
+    }
+
+    public enum ScreenType {
+        MENU,
+        KNIFE1,
+        KNIFE2,
+        OPTIONS;
+    }
+
+    public enum GameState {
+        RUNNING,
+        PAUSED,
+        GAME_OVER;
     }
 }
 
