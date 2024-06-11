@@ -51,6 +51,10 @@ public class Constants {
         PAUSED,
         GAME_OVER;
     }
+
+    public static class Audio {
+        public static final float DEFAULT_VOLUME = 1f;
+    }
 }
 
 

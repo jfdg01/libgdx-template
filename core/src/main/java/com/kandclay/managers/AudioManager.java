@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Disposable;
+import com.kandclay.utils.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class AudioManager implements Disposable {
     private AudioManager() {
         soundMap = new HashMap<>();
         musicMap = new HashMap<>();
-        volume = 0.0f; // Default volume
+        volume = Constants.Audio.DEFAULT_VOLUME; // Default volume
     }
 
     // Thread-safe method to get the singleton instance

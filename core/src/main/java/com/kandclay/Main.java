@@ -77,7 +77,7 @@ public class Main extends ApplicationAdapter {
 
         audioManager.loadSound(Constants.Sounds.OOF);
 
-        Random random = new Random();
+        Random random = new Random(System.nanoTime());
         int randomIndex = random.nextInt(musicFiles.size);
         String randomMusicFile = musicFiles.get(randomIndex).path();
         Gdx.app.log("Playing music", randomMusicFile);
