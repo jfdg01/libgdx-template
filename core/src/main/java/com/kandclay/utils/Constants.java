@@ -39,11 +39,20 @@ public class Constants {
         public static final String OOF = "sounds/sound.ogg";
     }
 
+    public static class Counter {
+        public static class Button {
+            public static final int WIDTH = 800;
+            public static final int HEIGHT = 400;
+            public static final int PADDING = 10;
+        }
+    }
+
     public enum ScreenType {
         MENU,
         KNIFE1,
         KNIFE2,
-        OPTIONS;
+        OPTIONS,
+        COUNTER;
     }
 
     public enum GameState {

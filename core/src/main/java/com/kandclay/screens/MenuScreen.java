@@ -36,7 +36,7 @@ public class MenuScreen extends BaseScreen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                screenManager.setScreen(Constants.ScreenType.KNIFE1); // Or the main game screen
+                screenManager.setScreen(Constants.ScreenType.COUNTER); // Or the main game screen
             }
         });
 

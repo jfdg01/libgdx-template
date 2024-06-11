@@ -38,6 +38,9 @@ public class ScreenManager {
             case OPTIONS:
                 currentScreen = new OptionsScreen(assetManager, audioManager, this);
                 break;
+            case COUNTER:
+                currentScreen = new CounterScreen(assetManager, audioManager);
+                break;
         }
         currentScreen.show();
     }

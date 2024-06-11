@@ -40,7 +40,7 @@ public class Main extends ApplicationAdapter {
 
         loadInitialAssets();
         screenManager.setScreen(ScreenType.MENU);
-        loadAndPlayRandomMusic();
+        // loadAndPlayRandomMusic();
     }
 
     private void loadInitialAssets() {
