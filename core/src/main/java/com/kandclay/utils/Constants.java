@@ -18,6 +18,16 @@ public class Constants {
         public static final int PADDING = 5;
         public static final int SLIDER_WIDTH = 300;
     }
+
+    public static class KnifePlanet {
+        public static final String ATLAS = "spine/knifePlanet.atlas";
+        public static final String JSON = "spine/knifePlanet.json";
+        public static final String PNG = "spine/knifePlanet.png";
+    }
+
+    public static class Skin {
+        public static final String JSON = "skin/default/skin/uiskin.json";
+    }
 }
 
 

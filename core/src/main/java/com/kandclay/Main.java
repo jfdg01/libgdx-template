@@ -15,6 +15,7 @@ import com.kandclay.managers.AudioManager;
 import com.kandclay.managers.ConfigurationManager;
 import com.kandclay.managers.MyAssetManager;
 import com.kandclay.managers.ScreenManager;
+import com.kandclay.utils.Constants;
 import com.kandclay.utils.ScreenType;
 
 import java.util.Random;
@@ -60,8 +61,8 @@ public class Main extends ApplicationAdapter {
         for (String texture : textures) {
             assetManager.load(texture, Texture.class);
         }
-        assetManager.load("skin/default/skin/uiskin.json", Skin.class);
-        assetManager.load("spine/skeleton.atlas", TextureAtlas.class);
+        assetManager.load(Constants.Skin.JSON, Skin.class);
+        assetManager.load(Constants.KnifePlanet.ATLAS, TextureAtlas.class);
         assetManager.finishLoading();
     }
 

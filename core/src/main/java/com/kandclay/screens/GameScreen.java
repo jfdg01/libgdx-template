@@ -60,7 +60,7 @@ public class GameScreen extends BaseScreen {
     private void initializeAnimations() {
         spineActors = new SnapshotArray<>();
         String[] spineFiles = {
-            "spine/skeleton.atlas", "spine/skeleton.json"
+            Constants.KnifePlanet.ATLAS, Constants.KnifePlanet.JSON
         };
 
         Skeleton skeleton = spineAnimationHandler.createSkeleton(spineFiles[0], spineFiles[1]);

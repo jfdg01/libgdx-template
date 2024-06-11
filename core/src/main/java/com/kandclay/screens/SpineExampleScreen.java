@@ -33,13 +33,8 @@ public class SpineExampleScreen extends BaseScreen {
 
     private boolean isLooping = true; // Set initial state to automatic (looping)
 
-    // Counter for the "in" event
     private int inEventCounter = 0;
-
-    // Flag to track if "in" event has been triggered in the current cycle
     private boolean inEventTriggered = false;
-
-    // Speed multiplier for the animation
     private float speedMultiplier = 1f;
 
     public SpineExampleScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler) {
@@ -144,8 +139,8 @@ public class SpineExampleScreen extends BaseScreen {
     }
 
     private void initializeAnimations() {
-        String atlasPath = "spine/skeleton.atlas";
-        String skeletonPath = "spine/skeleton.json";
+        String atlasPath = Constants.KnifePlanet.ATLAS;
+        String skeletonPath = Constants.KnifePlanet.JSON;
 
         skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
         state = spineAnimationHandler.createAnimationState(skeleton);
