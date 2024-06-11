@@ -21,7 +21,7 @@ public class AudioManager implements Disposable {
     private AudioManager() {
         soundMap = new HashMap<>();
         musicMap = new HashMap<>();
-        volume = 1.0f; // Default volume
+        volume = 0.0f; // Default volume
     }
 
     // Thread-safe method to get the singleton instance
@@ -92,9 +92,12 @@ public class AudioManager implements Disposable {
         }
     }
 
-    // Set volume for sound effects
+    // Set volume for sound effects and current music
     public void setVolume(float volume) {
         this.volume = volume;
+        if (currentMusic != null) {
+            currentMusic.setVolume(volume);
+        }
     }
 
     // Get volume for sound effects
