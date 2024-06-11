@@ -20,7 +20,6 @@ import com.kandclay.utils.ScreenType;
 
 import java.util.Random;
 
-
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private MyAssetManager assetManager;

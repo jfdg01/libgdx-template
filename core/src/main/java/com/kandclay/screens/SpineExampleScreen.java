@@ -159,6 +159,12 @@ public class SpineExampleScreen extends BaseScreen {
                     System.out.println("Event 'in' triggered! Counter: " + inEventCounter);
                 }
             }
+
+            @Override
+            public void complete(AnimationState.TrackEntry entry) {
+                // Reset the event trigger flag when the animation completes a loop
+                inEventTriggered = false;
+            }
         });
     }
 
