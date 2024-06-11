@@ -87,7 +87,6 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
-        Gdx.input.setInputProcessor(stage);
     }
 
     private void initializeUI() {

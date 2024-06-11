@@ -24,7 +24,6 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
-        Gdx.input.setInputProcessor(stage);
 
         Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
 
@@ -59,21 +58,18 @@ public class MenuScreen extends BaseScreen {
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-        table.add(startButton).width(200).height(60).pad(10);
+        table.add(startButton).width(Constants.Buttons.BUTTON_WIDTH).height(Constants.Buttons.BUTTON_HEIGHT).pad(Constants.Buttons.PADDING);
         table.row();
-        table.add(optionsButton).width(200).height(60).pad(10);
+        table.add(optionsButton).width(Constants.Buttons.BUTTON_WIDTH).height(Constants.Buttons.BUTTON_HEIGHT).pad(Constants.Buttons.PADDING);
         table.row();
-        table.add(exitButton).width(200).height(60).pad(10);
+        table.add(exitButton).width(Constants.Buttons.BUTTON_WIDTH).height(Constants.Buttons.BUTTON_HEIGHT).pad(Constants.Buttons.PADDING);
 
         stage.addActor(table);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
+        super.render(delta);
     }
 }
 

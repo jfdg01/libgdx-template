@@ -56,9 +56,6 @@ public class SpineKnife2Screen extends BaseScreen {
 
         initializeAnimations();
 
-        // Set up the UI
-        Gdx.input.setInputProcessor(stage);
-
         Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
         slider = new Slider(0, 1, 0.01f, false, skin);
         slider.addListener(new ChangeListener() {
@@ -204,8 +201,8 @@ public class SpineKnife2Screen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        super.render(delta);
 
         if (isLooping) {
             state.update(delta * speedMultiplier);
@@ -222,8 +219,6 @@ public class SpineKnife2Screen extends BaseScreen {
         // Render the counter in the top right corner
         font.draw(batch, "Counter: " + inEventCounter, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 10);
         batch.end();
-
-        super.render(delta);
     }
 
     @Override

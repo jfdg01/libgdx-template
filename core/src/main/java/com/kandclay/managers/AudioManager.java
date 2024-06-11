@@ -15,10 +15,13 @@ public class AudioManager implements Disposable {
     private Map<String, Music> musicMap;
     private Music currentMusic;
 
+    private float volume;
+
     // Private constructor to prevent instantiation
     private AudioManager() {
         soundMap = new HashMap<>();
         musicMap = new HashMap<>();
+        volume = 1.0f; // Default volume
     }
 
     // Thread-safe method to get the singleton instance
@@ -40,14 +43,8 @@ public class AudioManager implements Disposable {
     // Play a sound file
     public void playSound(String fileName) {
         Sound sound = soundMap.get(fileName);
-        // sound = Gdx.audio.newSound(Gdx.files.internal(fileName));
-//        if (sound == null) {
-//            // Attempt to load the sound if it's not already loaded
-//            loadSound(fileName);
-//            sound = soundMap.get(fileName);
-//        }
         if (sound != null) {
-            sound.play();
+            sound.play(volume);
         } else {
             throw new RuntimeException("Sound not loaded: " + fileName);
         }
@@ -79,6 +76,7 @@ public class AudioManager implements Disposable {
         Music music = musicMap.get(fileName);
         if (music != null) {
             music.setLooping(looping);
+            music.setVolume(volume);
             music.play();
             currentMusic = music;
         } else {
@@ -92,6 +90,16 @@ public class AudioManager implements Disposable {
             currentMusic.stop();
             currentMusic = null;
         }
+    }
+
+    // Set volume for sound effects
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
+    // Get volume for sound effects
+    public float getVolume() {
+        return volume;
     }
 
     // Dispose of all sounds and music

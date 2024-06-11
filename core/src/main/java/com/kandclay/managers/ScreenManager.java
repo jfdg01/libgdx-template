@@ -36,7 +36,7 @@ public class ScreenManager {
                 currentScreen = new SpineKnife2Screen(assetManager, audioManager, spineAnimationHandler);
                 break;
             case OPTIONS:
-                currentScreen = new OptionsScreen(assetManager, audioManager);
+                currentScreen = new OptionsScreen(assetManager, audioManager, this);
                 break;
         }
         currentScreen.show();
