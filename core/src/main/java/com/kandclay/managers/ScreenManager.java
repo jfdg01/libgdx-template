@@ -27,7 +27,7 @@ public class ScreenManager {
         }
         switch (screenType) {
             case MENU:
-                currentScreen = new MenuScreen(assetManager, audioManager);
+                currentScreen = new MenuScreen(assetManager, audioManager, this);
                 break;
             case KNIFE1:
                 currentScreen = new SpineKnife1Screen(assetManager, audioManager, spineAnimationHandler);

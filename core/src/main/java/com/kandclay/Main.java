@@ -39,7 +39,7 @@ public class Main extends ApplicationAdapter {
         spineAnimationHandler = new SpineAnimationHandler(assetManager);
 
         loadInitialAssets();
-        screenManager.setScreen(ScreenType.KNIFE1);
+        screenManager.setScreen(ScreenType.MENU);
         loadAndPlayRandomMusic();
     }
 
