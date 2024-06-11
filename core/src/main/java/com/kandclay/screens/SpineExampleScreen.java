@@ -5,20 +5,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.esotericsoftware.spine.*;
 
 import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.utils.Constants;
-import com.kandclay.utils.Constants.Buttons;
 import com.kandclay.managers.*;
 
 public class SpineExampleScreen extends BaseScreen {
@@ -31,7 +27,6 @@ public class SpineExampleScreen extends BaseScreen {
     private Skeleton skeleton;
     private AnimationState state;
 
-    private Stage stage;
     private Slider slider;
     private TextButton modeButton;
     private BitmapFont font;
@@ -54,6 +49,8 @@ public class SpineExampleScreen extends BaseScreen {
 
     @Override
     public void show() {
+        super.show();
+
         camera = new OrthographicCamera();
         batch = new SpriteBatch();
         renderer = new SkeletonRenderer();
@@ -63,10 +60,9 @@ public class SpineExampleScreen extends BaseScreen {
         initializeAnimations();
 
         // Set up the UI
-        stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        Skin skin = new Skin(Gdx.files.internal("skin/default/skin/uiskin.json"));
+        Skin skin = assetManager.get("skin/default/skin/uiskin.json", Skin.class);
         slider = new Slider(0, 1, 0.01f, false, skin);
         slider.addListener(new ChangeListener() {
             @Override
@@ -192,18 +188,15 @@ public class SpineExampleScreen extends BaseScreen {
         font.draw(batch, "Counter: " + inEventCounter, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 10);
         batch.end();
 
-        stage.act(delta);
-        stage.draw();
-
-        // debugRenderer.draw(skeleton);
+        super.render(delta);
     }
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
         camera.setToOrtho(false, width, height);
         camera.update();
         setSkeletonPosition();
-        stage.getViewport().update(width, height, true);
     }
 
     private void setSkeletonPosition() {
@@ -215,8 +208,8 @@ public class SpineExampleScreen extends BaseScreen {
 
     @Override
     public void dispose() {
+        super.dispose();
         batch.dispose();
-        stage.dispose();
         font.dispose();
     }
 }
