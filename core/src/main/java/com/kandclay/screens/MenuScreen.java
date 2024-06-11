@@ -1,6 +1,7 @@
 package com.kandclay.screens;
 
-import com.kandclay.*;
+import com.kandclay.managers.AudioManager;
+import com.kandclay.managers.MyAssetManager;
 
 public class MenuScreen extends BaseScreen {
 

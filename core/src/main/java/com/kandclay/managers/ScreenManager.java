@@ -1,6 +1,8 @@
-package com.kandclay;
+package com.kandclay.managers;
 
-import com.badlogic.gdx.Screen;
+import com.kandclay.handlers.AnimationHandler;
+import com.kandclay.utils.ScreenType;
+import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.screens.*;
 
 public class ScreenManager {
@@ -9,12 +11,14 @@ public class ScreenManager {
     private ConfigurationManager configManager;
     private BaseScreen currentScreen;
     private AnimationHandler animationHandler;
+    private SpineAnimationHandler spineAnimationHandler;
 
     public ScreenManager(MyAssetManager assetManager, AudioManager audioManager, ConfigurationManager configManager) {
         this.assetManager = assetManager;
         this.audioManager = audioManager;
         this.configManager = configManager;
         this.animationHandler = new AnimationHandler(assetManager);
+        this.spineAnimationHandler = new SpineAnimationHandler(assetManager);
     }
 
     public void setScreen(ScreenType screenType) {
@@ -26,7 +30,7 @@ public class ScreenManager {
                 currentScreen = new MenuScreen(assetManager, audioManager);
                 break;
             case GAME:
-                currentScreen = new GameScreen(assetManager, audioManager, animationHandler);
+                currentScreen = new GameScreen(assetManager, audioManager, animationHandler, spineAnimationHandler);
                 break;
             case OPTIONS:
                 currentScreen = new OptionsScreen(assetManager, audioManager);
@@ -64,11 +68,5 @@ public class ScreenManager {
             currentScreen.dispose();
         }
     }
-}
-
-enum ScreenType {
-    MENU,
-    GAME,
-    OPTIONS;
 }
 

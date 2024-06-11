@@ -1,9 +1,10 @@
-package com.kandclay;
+package com.kandclay.actors;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.kandclay.utils.Constants;
 
 public class AnimatedActor extends Actor {
     private Animation<TextureRegion> animation;

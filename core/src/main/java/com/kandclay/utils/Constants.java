@@ -1,4 +1,4 @@
-package com.kandclay;
+package com.kandclay.utils;
 
 public class Constants {
     public static class Animation {

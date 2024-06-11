@@ -1,4 +1,4 @@
-package com.kandclay;
+package com.kandclay.handlers;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;

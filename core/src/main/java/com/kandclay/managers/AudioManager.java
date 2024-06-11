@@ -1,4 +1,4 @@
-package com.kandclay;
+package com.kandclay.managers;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;

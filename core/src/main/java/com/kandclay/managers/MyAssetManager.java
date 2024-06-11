@@ -1,8 +1,6 @@
-package com.kandclay;
+package com.kandclay.managers;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.utils.Disposable;
 
 public class MyAssetManager implements Disposable {

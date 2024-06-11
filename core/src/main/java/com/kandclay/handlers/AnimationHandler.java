@@ -1,15 +1,11 @@
-package com.kandclay;
+package com.kandclay.handlers;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.kandclay.utils.Constants;
+import com.kandclay.managers.MyAssetManager;
 
 public class AnimationHandler {
     private MyAssetManager assetManager;

@@ -1,4 +1,4 @@
-package com.kandclay;
+package com.kandclay.utils;
 
 public enum GameState {
     RUNNING,

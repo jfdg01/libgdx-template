@@ -3,7 +3,8 @@ package com.kandclay.screens;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.kandclay.*;
+import com.kandclay.managers.AudioManager;
+import com.kandclay.managers.MyAssetManager;
 
 public abstract class BaseScreen implements Screen {
     protected Stage stage;

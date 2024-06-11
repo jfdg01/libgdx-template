@@ -23,7 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
-import static com.kandclay.Constants.Buttons.*;
+import static com.kandclay.utils.Constants.Buttons.*;
 
 public class SpineExample extends ApplicationAdapter {
     OrthographicCamera camera;
