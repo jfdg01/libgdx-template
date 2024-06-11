@@ -40,6 +40,12 @@ public class AudioManager implements Disposable {
     // Play a sound file
     public void playSound(String fileName) {
         Sound sound = soundMap.get(fileName);
+        // sound = Gdx.audio.newSound(Gdx.files.internal(fileName));
+//        if (sound == null) {
+//            // Attempt to load the sound if it's not already loaded
+//            loadSound(fileName);
+//            sound = soundMap.get(fileName);
+//        }
         if (sound != null) {
             sound.play();
         } else {

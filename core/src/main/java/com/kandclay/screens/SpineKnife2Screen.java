@@ -36,6 +36,8 @@ public class SpineKnife2Screen extends BaseScreen {
     private int inEventCounter = 0;
     private boolean inEventTriggered = false;
     private float speedMultiplier = 1f;
+    private boolean animationStarted = false;
+    private float lastSliderValue = 0f; // Track last slider value for changes
 
     public SpineKnife2Screen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler) {
         super(assetManager, audioManager);
@@ -71,6 +73,11 @@ public class SpineKnife2Screen extends BaseScreen {
                     if (progress < 0.5f) {
                         inEventTriggered = false;
                     }
+
+                    if (progress != lastSliderValue) {
+                        lastSliderValue = progress;
+                        System.out.println("Slider changed: " + slider.getValue() + " Mode: Manual");
+                    }
                 }
             }
         });
@@ -80,6 +87,7 @@ public class SpineKnife2Screen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isLooping = !isLooping;
+                System.out.println("Mode changed to: " + (isLooping ? "Automatic" : "Manual"));
                 if (isLooping) {
                     modeButton.setText("Pasar a modo manual");
                     state.setAnimation(0, "animation", true);  // Restart the animation loop
@@ -95,6 +103,7 @@ public class SpineKnife2Screen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 speedMultiplier = 1f;
+                System.out.println("Speed set to 1x");
             }
         });
 
@@ -103,6 +112,7 @@ public class SpineKnife2Screen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 speedMultiplier = 2f;
+                System.out.println("Speed set to 2x");
             }
         });
 
@@ -111,6 +121,7 @@ public class SpineKnife2Screen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 speedMultiplier = 3f;
+                System.out.println("Speed set to 3x");
             }
         });
 
@@ -151,19 +162,42 @@ public class SpineKnife2Screen extends BaseScreen {
         state.setAnimation(0, "animation", true);  // Loop the animation by default
 
         state.addListener(new AnimationState.AnimationStateAdapter() {
+
+            @Override
+            public void start(AnimationState.TrackEntry entry) {
+                System.out.println("Animation started");
+                animationStarted = true;
+            }
+
+            @Override
+            public void interrupt(AnimationState.TrackEntry entry) {
+                System.out.println("Animation interrupted");
+                animationStarted = false;
+            }
+
             @Override
             public void event(AnimationState.TrackEntry entry, com.esotericsoftware.spine.Event event) {
-                if ("in".equals(event.getData().getName()) && !inEventTriggered) {
+                if ("splatter".equals(event.getData().getName()) && !inEventTriggered) {
                     inEventCounter++;
                     inEventTriggered = true;  // Mark event as triggered
-                    System.out.println("Event 'in' triggered! Counter: " + inEventCounter);
+                    System.out.println("Event 'splatter' triggered! Counter: " + inEventCounter);
                 }
             }
 
             @Override
             public void complete(AnimationState.TrackEntry entry) {
                 // Reset the event trigger flag when the animation completes a loop
+                System.out.println("Animation completed");
                 inEventTriggered = false;
+                animationStarted = false;
+            }
+
+            @Override
+            public void end(AnimationState.TrackEntry entry) {
+                // This will be called at the end of the animation loop
+                System.out.println("Animation ended, starting new loop");
+                inEventTriggered = false;
+                animationStarted = true; // Ensure the start message for the new loop
             }
         });
     }
@@ -214,4 +248,3 @@ public class SpineKnife2Screen extends BaseScreen {
         font.dispose();
     }
 }
-

@@ -35,6 +35,10 @@ public class Constants {
         public static final String JSON = "skin/default/skin/uiskin.json";
     }
 
+    public static class Sounds {
+        public static final String OOF = "sounds/sound.ogg";
+    }
+
     public enum ScreenType {
         MENU,
         KNIFE1,

@@ -39,7 +39,7 @@ public class Main extends ApplicationAdapter {
         spineAnimationHandler = new SpineAnimationHandler(assetManager);
 
         loadInitialAssets();
-        screenManager.setScreen(ScreenType.MENU);
+        screenManager.setScreen(ScreenType.KNIFE1);
         loadAndPlayRandomMusic();
     }
 
@@ -60,8 +60,11 @@ public class Main extends ApplicationAdapter {
         for (String texture : textures) {
             assetManager.load(texture, Texture.class);
         }
+
         assetManager.load(Constants.Skin.JSON, Skin.class);
         assetManager.load(Constants.KnifePlanet.ATLAS, TextureAtlas.class);
+        assetManager.load(Constants.KnifePlanet2.ATLAS, TextureAtlas.class);
+
         assetManager.finishLoading();
     }
 
@@ -71,6 +74,8 @@ public class Main extends ApplicationAdapter {
         for (FileHandle file : musicFiles) {
             audioManager.loadMusic(file.path());
         }
+
+        audioManager.loadSound(Constants.Sounds.OOF);
 
         Random random = new Random();
         int randomIndex = random.nextInt(musicFiles.size);

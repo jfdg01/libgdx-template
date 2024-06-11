@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -25,16 +24,11 @@ public class SpineKnife1Screen extends BaseScreen {
     private SpineAnimationHandler spineAnimationHandler;
 
     private Skeleton skeleton;
-    private AnimationState state;
+    private AnimationState animationState;
 
-    private Slider slider;
-    private TextButton modeButton;
     private BitmapFont font;
 
-    private boolean isLooping = true; // Set initial state to automatic (looping)
-
     private int inEventCounter = 0;
-    private boolean inEventTriggered = false;
     private float speedMultiplier = 1f;
 
     public SpineKnife1Screen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler) {
@@ -58,36 +52,6 @@ public class SpineKnife1Screen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
 
         Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
-        slider = new Slider(0, 1, 0.01f, false, skin);
-        slider.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if (!isLooping) {
-                    float progress = slider.getValue();
-                    float animationDuration = state.getCurrent(0).getAnimation().getDuration();
-                    state.getCurrent(0).setTrackTime(progress * animationDuration);
-
-                    // Reset the event trigger flag if the slider is moved back past the trigger point
-                    if (progress < 0.5f) {
-                        inEventTriggered = false;
-                    }
-                }
-            }
-        });
-
-        modeButton = new TextButton("Pasar a modo manual", skin); // Set initial button text to switch to manual
-        modeButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                isLooping = !isLooping;
-                if (isLooping) {
-                    modeButton.setText("Pasar a modo manual");
-                    state.setAnimation(0, "animation", true);  // Restart the animation loop
-                } else {
-                    modeButton.setText("Pasar a modo automatico");
-                }
-            }
-        });
 
         // Speed control buttons
         TextButton speed1xButton = new TextButton("1x", skin);
@@ -124,9 +88,6 @@ public class SpineKnife1Screen extends BaseScreen {
         Table table = new Table();
         table.setFillParent(true);
         table.bottom();
-        table.add(slider).width(Constants.Buttons.SLIDER_WIDTH).padBottom(Constants.Buttons.PADDING);
-        table.row();
-        table.add(modeButton).padBottom(Constants.Buttons.PADDING);
 
         stage.addActor(controlTable);
         stage.addActor(table);
@@ -143,27 +104,21 @@ public class SpineKnife1Screen extends BaseScreen {
         String skeletonPath = Constants.KnifePlanet.JSON;
 
         skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
-        state = spineAnimationHandler.createAnimationState(skeleton);
+        animationState = spineAnimationHandler.createAnimationState(skeleton);
         skeleton.setScale(4f, 4f);
 
         setSkeletonPosition();
 
-        state.setAnimation(0, "animation", true);  // Loop the animation by default
+        animationState.setAnimation(0, "animation", true);  // Loop the animation by default
 
-        state.addListener(new AnimationState.AnimationStateAdapter() {
+        animationState.addListener(new AnimationState.AnimationStateAdapter() {
             @Override
             public void event(AnimationState.TrackEntry entry, com.esotericsoftware.spine.Event event) {
-                if ("in".equals(event.getData().getName()) && !inEventTriggered) {
+                if ("in".equals(event.getData().getName())) {
                     inEventCounter++;
-                    inEventTriggered = true;  // Mark event as triggered
+                    audioManager.playSound(Constants.Sounds.OOF);
                     System.out.println("Event 'in' triggered! Counter: " + inEventCounter);
                 }
-            }
-
-            @Override
-            public void complete(AnimationState.TrackEntry entry) {
-                // Reset the event trigger flag when the animation completes a loop
-                inEventTriggered = false;
             }
         });
     }
@@ -173,11 +128,9 @@ public class SpineKnife1Screen extends BaseScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (isLooping) {
-            state.update(delta * speedMultiplier);
-        }
+        animationState.update(delta * speedMultiplier);
 
-        state.apply(skeleton);
+        animationState.apply(skeleton);
         skeleton.updateWorldTransform();
 
         camera.update();
