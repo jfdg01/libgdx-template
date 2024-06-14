@@ -2,6 +2,8 @@ package com.kandclay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -39,6 +41,9 @@ public class Main extends ApplicationAdapter {
         spineAnimationHandler = new SpineAnimationHandler(assetManager);
 
         loadInitialAssets();
+
+        loadCustomCursor();
+
         screenManager.setScreen(ScreenType.SPINOSAURUS);
         // loadAndPlayRandomMusic();
     }
@@ -66,8 +71,16 @@ public class Main extends ApplicationAdapter {
         assetManager.load(Constants.KnifePlanet2.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.Spinosaurus.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.Trail.ATLAS, TextureAtlas.class);
+        assetManager.load("cursor.png", Pixmap.class);
 
         assetManager.finishLoading();
+    }
+
+    private void loadCustomCursor() {
+        Pixmap pixmap = new Pixmap(Gdx.files.internal("cursor.png"));
+        Cursor cursor = Gdx.graphics.newCursor(pixmap, pixmap.getWidth() / 2, pixmap.getHeight() / 2);
+        Gdx.graphics.setCursor(cursor);
+        pixmap.dispose();
     }
 
     private void loadAndPlayRandomMusic() {
