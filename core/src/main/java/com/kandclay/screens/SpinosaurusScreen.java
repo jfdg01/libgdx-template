@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Bone;
 import com.esotericsoftware.spine.Skeleton;
@@ -19,6 +20,8 @@ import com.kandclay.managers.MyAssetManager;
 import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
 
+import java.util.Iterator;
+
 public class SpinosaurusScreen extends BaseScreen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
@@ -29,8 +32,7 @@ public class SpinosaurusScreen extends BaseScreen {
     private Skeleton skeleton;
     private AnimationState state;
 
-    private Skeleton explosionSkeleton;
-    private AnimationState explosionState;
+    private SnapshotArray<Explosion> explosions;
 
     private BitmapFont font;
     private float speedMultiplier = 1f;
@@ -53,6 +55,7 @@ public class SpinosaurusScreen extends BaseScreen {
         batch = new SpriteBatch();
         renderer = new SkeletonRenderer();
         renderer.setPremultipliedAlpha(true);
+        explosions = new SnapshotArray<>();
 
         initializeAnimations();
 
@@ -92,9 +95,6 @@ public class SpinosaurusScreen extends BaseScreen {
         // Load explosion animation
         String explosionAtlasPath = Constants.UI.EXPLOSION_ATLAS;
         String explosionSkeletonPath = Constants.UI.EXPLOSION_JSON;
-
-        explosionSkeleton = spineAnimationHandler.createSkeleton(explosionAtlasPath, explosionSkeletonPath);
-        explosionState = spineAnimationHandler.createAnimationState(explosionSkeleton);
     }
 
     private void handleHover(float x, float y) {
@@ -140,8 +140,17 @@ public class SpinosaurusScreen extends BaseScreen {
     private void handleClick(float x, float y) {
         Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(x, y));
 
+        String explosionAtlasPath = Constants.UI.EXPLOSION_ATLAS;
+        String explosionSkeletonPath = Constants.UI.EXPLOSION_JSON;
+
+        Skeleton explosionSkeleton = spineAnimationHandler.createSkeleton(explosionAtlasPath, explosionSkeletonPath);
+        AnimationState explosionState = spineAnimationHandler.createAnimationState(explosionSkeleton);
+
         explosionSkeleton.setPosition(x, y);
         explosionState.setAnimation(0, "animation", false);
+
+        explosions.add(new Explosion(explosionSkeleton, explosionState));
+
 
         if (isHoveringButton(stageCoords.x, stageCoords.y, "play")) {
             // screenManager.setScreen(Constants.ScreenType.KNIFE1);
@@ -179,20 +188,28 @@ public class SpinosaurusScreen extends BaseScreen {
         super.render(delta);
 
         state.update(delta * speedMultiplier);
-        explosionState.update(delta);
-
         state.apply(skeleton);
-        explosionState.apply(explosionSkeleton);
-
         skeleton.updateWorldTransform();
-        explosionSkeleton.updateWorldTransform();
 
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
         renderer.draw(batch, skeleton);
-        renderer.draw(batch, explosionSkeleton);
+        Iterator<Explosion> iterator = explosions.iterator();
+        while (iterator.hasNext()) {
+            Explosion explosion = iterator.next();
+            explosion.state.update(delta);
+            explosion.state.apply(explosion.skeleton);
+            explosion.skeleton.updateWorldTransform();
+
+            renderer.draw(batch, explosion.skeleton);
+
+            // Remove the explosion if the animation is complete
+            if (explosion.state.getCurrent(0) == null || explosion.state.getCurrent(0).isComplete()) {
+                iterator.remove();
+            }
+        }
         batch.end();
 
         setSkeletonPosition();
@@ -217,5 +234,15 @@ public class SpinosaurusScreen extends BaseScreen {
         super.dispose();
         batch.dispose();
         font.dispose();
+    }
+
+    private static class Explosion {
+        public Skeleton skeleton;
+        public AnimationState state;
+
+        public Explosion(Skeleton skeleton, AnimationState state) {
+            this.skeleton = skeleton;
+            this.state = state;
+        }
     }
 }
