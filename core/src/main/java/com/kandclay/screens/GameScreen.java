@@ -19,6 +19,7 @@ import com.kandclay.handlers.SpriteSheetAnimationHandler;
 import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.managers.AudioManager;
 import com.kandclay.managers.MyAssetManager;
+import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
 import com.kandclay.utils.Constants.GameState;
 
@@ -41,8 +42,8 @@ public class GameScreen extends BaseScreen {
     private boolean inEventTriggered = false;
     private float speedMultiplier = 1f;
 
-    public GameScreen(MyAssetManager assetManager, AudioManager audioManager, SpriteSheetAnimationHandler spriteSheetAnimationHandler, SpineAnimationHandler spineAnimationHandler) {
-        super(assetManager, audioManager);
+    public GameScreen(MyAssetManager assetManager, AudioManager audioManager, SpriteSheetAnimationHandler spriteSheetAnimationHandler, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+        super(assetManager, audioManager, spineAnimationHandler, screenManager);
         gameState = GameState.RUNNING;
         this.spriteSheetAnimationHandler = spriteSheetAnimationHandler;
         this.spineAnimationHandler = spineAnimationHandler;

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.managers.AudioManager;
 import com.kandclay.managers.MyAssetManager;
 import com.kandclay.managers.ScreenManager;
@@ -16,8 +17,8 @@ public class MenuScreen extends BaseScreen {
 
     ScreenManager screenManager;
 
-    public MenuScreen(MyAssetManager assetManager, AudioManager audioManager, ScreenManager screenManager) {
-        super(assetManager, audioManager);
+    public MenuScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler,ScreenManager screenManager) {
+        super(assetManager, audioManager, spineAnimationHandler, screenManager);
         this.screenManager = screenManager;
     }
 

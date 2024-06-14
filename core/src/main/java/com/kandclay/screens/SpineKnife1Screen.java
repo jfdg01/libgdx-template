@@ -31,8 +31,8 @@ public class SpineKnife1Screen extends BaseScreen {
     private int inEventCounter = 0;
     private float speedMultiplier = 1f;
 
-    public SpineKnife1Screen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler) {
-        super(assetManager, audioManager);
+    public SpineKnife1Screen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+        super(assetManager, audioManager, spineAnimationHandler, screenManager);
         this.spineAnimationHandler = spineAnimationHandler;
     }
 

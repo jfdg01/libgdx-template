@@ -64,8 +64,8 @@ public class Main extends ApplicationAdapter {
         assetManager.load(Constants.Skin.JSON, Skin.class);
         assetManager.load(Constants.KnifePlanet.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.KnifePlanet2.ATLAS, TextureAtlas.class);
-        assetManager.load(Constants.UI.ATLAS, TextureAtlas.class);
-        assetManager.load(Constants.UI.EXPLOSION_ATLAS, TextureAtlas.class);
+        assetManager.load(Constants.Spinosaurus.ATLAS, TextureAtlas.class);
+        assetManager.load(Constants.Trail.ATLAS, TextureAtlas.class);
 
         assetManager.finishLoading();
     }

@@ -1,7 +1,6 @@
 package com.kandclay.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.utils.SnapshotArray;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Bone;
 import com.esotericsoftware.spine.Skeleton;
@@ -21,33 +19,20 @@ import com.kandclay.managers.MyAssetManager;
 import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
 
-import java.util.Iterator;
-
 public class SpinosaurusScreen extends BaseScreen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private SkeletonRenderer renderer;
-    private SpineAnimationHandler spineAnimationHandler;
-    private ScreenManager screenManager;
-
     private Skeleton skeleton;
     private AnimationState state;
-
-    private SnapshotArray<Explosion> explosions;
-
     private BitmapFont font;
     private float speedMultiplier = 1f;
-
     private boolean isPlayHovered = false;
     private boolean isQuitHovered = false;
     private boolean isSettingsHovered = false;
 
-    private int explosionCount = 0;
-
     public SpinosaurusScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
-        super(assetManager, audioManager);
-        this.spineAnimationHandler = spineAnimationHandler;
-        this.screenManager = screenManager;
+        super(assetManager, audioManager, spineAnimationHandler, screenManager);
     }
 
     @Override
@@ -58,21 +43,16 @@ public class SpinosaurusScreen extends BaseScreen {
         batch = new SpriteBatch();
         renderer = new SkeletonRenderer();
         renderer.setPremultipliedAlpha(true);
-        explosions = new SnapshotArray<>();
 
         initializeAnimations();
 
-        // Set up the camera
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        // Initialize font
         font = new BitmapFont();
 
-        // Add input listener for hover and click detection
         stage.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                handleMouseMove(x, y);
+                handleHover(x, y);
                 return true;
             }
 
@@ -85,8 +65,8 @@ public class SpinosaurusScreen extends BaseScreen {
     }
 
     private void initializeAnimations() {
-        String atlasPath = Constants.UI.ATLAS;
-        String skeletonPath = Constants.UI.JSON;
+        String atlasPath = Constants.Spinosaurus.ATLAS;
+        String skeletonPath = Constants.Spinosaurus.JSON;
 
         skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
         state = spineAnimationHandler.createAnimationState(skeleton);
@@ -94,15 +74,6 @@ public class SpinosaurusScreen extends BaseScreen {
 
         setSkeletonPosition();
         state.setAnimation(0, "animation", false);
-
-        // Load explosion animation
-        String explosionAtlasPath = Constants.UI.EXPLOSION_ATLAS;
-        String explosionSkeletonPath = Constants.UI.EXPLOSION_JSON;
-    }
-
-    private void handleMouseMove(float x, float y) {
-        createExplosion(x, y);
-        handleHover(x, y);
     }
 
     private void handleHover(float x, float y) {
@@ -146,8 +117,6 @@ public class SpinosaurusScreen extends BaseScreen {
     }
 
     private void handleClick(float x, float y) {
-        createExplosion(x, y);
-
         Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(x, y));
 
         if (isHoveringButton(stageCoords.x, stageCoords.y, "play")) {
@@ -157,44 +126,6 @@ public class SpinosaurusScreen extends BaseScreen {
         } else if (isHoveringButton(stageCoords.x, stageCoords.y, "settings")) {
             // screenManager.setScreen(Constants.ScreenType.OPTIONS);
         }
-    }
-
-    private void createExplosion(float x, float y) {
-
-        // Define the number of colors we want to cycle through the spectrum
-        final int numberOfColors = 360; // One color per degree of hue
-        final float saturation = 1.0f;
-        final float value = 1.0f;
-        final float alpha = 0.5f;
-
-        // Calculate the hue for the current explosion
-        float hue = (explosionCount % numberOfColors);
-
-        // Convert the HSV color to RGB
-        Color currentColor = new Color();
-        currentColor.fromHsv(hue, saturation, value);
-        currentColor.a = alpha;
-
-        String explosionAtlasPath = Constants.UI.EXPLOSION_ATLAS;
-        String explosionSkeletonPath = Constants.UI.EXPLOSION_JSON;
-
-        Skeleton explosionSkeleton = spineAnimationHandler.createSkeleton(explosionAtlasPath, explosionSkeletonPath);
-        AnimationState explosionState = spineAnimationHandler.createAnimationState(explosionSkeleton);
-
-        explosionSkeleton.setPosition(x, y);
-
-        // Set the calculated color
-        explosionSkeleton.setColor(currentColor);
-
-        // Set scale to 50%
-        explosionSkeleton.setScale(0.5f, 0.5f);
-
-        explosionState.setAnimation(0, "animation", false);
-
-        explosions.add(new Explosion(explosionSkeleton, explosionState));
-
-        // Increment the explosion count for the next explosion color
-        explosionCount++;
     }
 
     private boolean isHoveringButton(float x, float y, String buttonName) {
@@ -232,23 +163,10 @@ public class SpinosaurusScreen extends BaseScreen {
 
         batch.begin();
         renderer.draw(batch, skeleton);
-        Iterator<Explosion> iterator = explosions.iterator();
-        while (iterator.hasNext()) {
-            Explosion explosion = iterator.next();
-            explosion.state.update(delta);
-            explosion.state.apply(explosion.skeleton);
-            explosion.skeleton.updateWorldTransform();
-
-            renderer.draw(batch, explosion.skeleton);
-
-            // Remove the explosion if the animation is complete
-            if (explosion.state.getCurrent(0) == null || explosion.state.getCurrent(0).isComplete()) {
-                iterator.remove();
-            }
-        }
         batch.end();
 
         setSkeletonPosition();
+        super.renderTrail(delta);
     }
 
     @Override
@@ -270,15 +188,5 @@ public class SpinosaurusScreen extends BaseScreen {
         super.dispose();
         batch.dispose();
         font.dispose();
-    }
-
-    private static class Explosion {
-        public Skeleton skeleton;
-        public AnimationState state;
-
-        public Explosion(Skeleton skeleton, AnimationState state) {
-            this.skeleton = skeleton;
-            this.state = state;
-        }
     }
 }

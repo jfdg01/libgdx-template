@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.managers.AudioManager;
 import com.kandclay.managers.MyAssetManager;
+import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -28,8 +30,8 @@ public class CounterScreen extends BaseScreen {
 
     private BitmapFont largeFont;
 
-    public CounterScreen(MyAssetManager assetManager, AudioManager audioManager) {
-        super(assetManager, audioManager);
+    public CounterScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+        super(assetManager, audioManager, spineAnimationHandler, screenManager);
     }
 
     @Override
