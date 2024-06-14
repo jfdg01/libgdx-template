@@ -9,20 +9,22 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.esotericsoftware.spine.AnimationState;
+import com.esotericsoftware.spine.Bone;
 import com.esotericsoftware.spine.Skeleton;
 import com.esotericsoftware.spine.SkeletonRenderer;
+import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.managers.AudioManager;
 import com.kandclay.managers.MyAssetManager;
+import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
-import com.esotericsoftware.spine.Bone;
-import com.esotericsoftware.spine.attachments.RegionAttachment;
 
 public class SpinosaurusScreen extends BaseScreen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private SkeletonRenderer renderer;
     private SpineAnimationHandler spineAnimationHandler;
+    private ScreenManager screenManager;
 
     private Skeleton skeleton;
     private AnimationState state;
@@ -34,9 +36,10 @@ public class SpinosaurusScreen extends BaseScreen {
     private boolean isQuitHovered = false;
     private boolean isSettingsHovered = false;
 
-    public SpinosaurusScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler) {
+    public SpinosaurusScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(assetManager, audioManager);
         this.spineAnimationHandler = spineAnimationHandler;
+        this.screenManager = screenManager;
     }
 
     @Override
@@ -61,6 +64,12 @@ public class SpinosaurusScreen extends BaseScreen {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
                 handleHover(x, y);
+                return true;
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                handleClick(x, y);
                 return true;
             }
         });
@@ -116,6 +125,15 @@ public class SpinosaurusScreen extends BaseScreen {
                 isSettingsHovered = false;
             }
         }
+    }
+
+    private void handleClick(float x, float y) {
+        Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(x, y));
+
+        if (isHoveringButton(stageCoords.x, stageCoords.y, "play")) {
+            screenManager.setScreen(Constants.ScreenType.KNIFE1);
+        }
+        // Handle other button clicks if needed
     }
 
     private boolean isHoveringButton(float x, float y, String buttonName) {

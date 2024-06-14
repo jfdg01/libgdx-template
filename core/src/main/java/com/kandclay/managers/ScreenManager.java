@@ -42,7 +42,7 @@ public class ScreenManager {
                 currentScreen = new CounterScreen(assetManager, audioManager);
                 break;
             case SPINOSAURUS:
-                currentScreen = new SpinosaurusScreen(assetManager, audioManager, spineAnimationHandler);
+                currentScreen = new SpinosaurusScreen(assetManager, audioManager, spineAnimationHandler, this);
                 break;
         }
         currentScreen.show();
