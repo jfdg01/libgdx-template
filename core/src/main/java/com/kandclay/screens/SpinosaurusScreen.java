@@ -1,6 +1,7 @@
 package com.kandclay.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -41,6 +42,8 @@ public class SpinosaurusScreen extends BaseScreen {
     private boolean isQuitHovered = false;
     private boolean isSettingsHovered = false;
 
+    private int explosionCount = 0;
+
     public SpinosaurusScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(assetManager, audioManager);
         this.spineAnimationHandler = spineAnimationHandler;
@@ -69,7 +72,7 @@ public class SpinosaurusScreen extends BaseScreen {
         stage.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                handleHover(x, y);
+                handleMouseMove(x, y);
                 return true;
             }
 
@@ -95,6 +98,11 @@ public class SpinosaurusScreen extends BaseScreen {
         // Load explosion animation
         String explosionAtlasPath = Constants.UI.EXPLOSION_ATLAS;
         String explosionSkeletonPath = Constants.UI.EXPLOSION_JSON;
+    }
+
+    private void handleMouseMove(float x, float y) {
+        createExplosion(x, y);
+        handleHover(x, y);
     }
 
     private void handleHover(float x, float y) {
@@ -138,19 +146,9 @@ public class SpinosaurusScreen extends BaseScreen {
     }
 
     private void handleClick(float x, float y) {
+        createExplosion(x, y);
+
         Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(x, y));
-
-        String explosionAtlasPath = Constants.UI.EXPLOSION_ATLAS;
-        String explosionSkeletonPath = Constants.UI.EXPLOSION_JSON;
-
-        Skeleton explosionSkeleton = spineAnimationHandler.createSkeleton(explosionAtlasPath, explosionSkeletonPath);
-        AnimationState explosionState = spineAnimationHandler.createAnimationState(explosionSkeleton);
-
-        explosionSkeleton.setPosition(x, y);
-        explosionState.setAnimation(0, "animation", false);
-
-        explosions.add(new Explosion(explosionSkeleton, explosionState));
-
 
         if (isHoveringButton(stageCoords.x, stageCoords.y, "play")) {
             // screenManager.setScreen(Constants.ScreenType.KNIFE1);
@@ -159,6 +157,44 @@ public class SpinosaurusScreen extends BaseScreen {
         } else if (isHoveringButton(stageCoords.x, stageCoords.y, "settings")) {
             // screenManager.setScreen(Constants.ScreenType.OPTIONS);
         }
+    }
+
+    private void createExplosion(float x, float y) {
+
+        // Define the number of colors we want to cycle through the spectrum
+        final int numberOfColors = 360; // One color per degree of hue
+        final float saturation = 1.0f;
+        final float value = 1.0f;
+        final float alpha = 0.5f;
+
+        // Calculate the hue for the current explosion
+        float hue = (explosionCount % numberOfColors);
+
+        // Convert the HSV color to RGB
+        Color currentColor = new Color();
+        currentColor.fromHsv(hue, saturation, value);
+        currentColor.a = alpha;
+
+        String explosionAtlasPath = Constants.UI.EXPLOSION_ATLAS;
+        String explosionSkeletonPath = Constants.UI.EXPLOSION_JSON;
+
+        Skeleton explosionSkeleton = spineAnimationHandler.createSkeleton(explosionAtlasPath, explosionSkeletonPath);
+        AnimationState explosionState = spineAnimationHandler.createAnimationState(explosionSkeleton);
+
+        explosionSkeleton.setPosition(x, y);
+
+        // Set the calculated color
+        explosionSkeleton.setColor(currentColor);
+
+        // Set scale to 50%
+        explosionSkeleton.setScale(0.5f, 0.5f);
+
+        explosionState.setAnimation(0, "animation", false);
+
+        explosions.add(new Explosion(explosionSkeleton, explosionState));
+
+        // Increment the explosion count for the next explosion color
+        explosionCount++;
     }
 
     private boolean isHoveringButton(float x, float y, String buttonName) {
