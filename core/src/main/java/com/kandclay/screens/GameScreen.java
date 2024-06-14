@@ -42,8 +42,8 @@ public class GameScreen extends BaseScreen {
     private boolean inEventTriggered = false;
     private float speedMultiplier = 1f;
 
-    public GameScreen(MyAssetManager assetManager, AudioManager audioManager, SpriteSheetAnimationHandler spriteSheetAnimationHandler, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
-        super(assetManager, audioManager, spineAnimationHandler, screenManager);
+    public GameScreen(SpriteSheetAnimationHandler spriteSheetAnimationHandler, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+        super(spineAnimationHandler, screenManager);
         gameState = GameState.RUNNING;
         this.spriteSheetAnimationHandler = spriteSheetAnimationHandler;
         this.spineAnimationHandler = spineAnimationHandler;

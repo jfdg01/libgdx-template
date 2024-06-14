@@ -39,8 +39,8 @@ public class SpineKnife2Screen extends BaseScreen {
     private boolean animationStarted = false;
     private float lastSliderValue = 0f; // Track last slider value for changes
 
-    public SpineKnife2Screen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
-        super(assetManager, audioManager, spineAnimationHandler, screenManager);
+    public SpineKnife2Screen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+        super(spineAnimationHandler, screenManager);
         this.spineAnimationHandler = spineAnimationHandler;
     }
 

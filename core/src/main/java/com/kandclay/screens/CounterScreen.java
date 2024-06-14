@@ -30,8 +30,8 @@ public class CounterScreen extends BaseScreen {
 
     private BitmapFont largeFont;
 
-    public CounterScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
-        super(assetManager, audioManager, spineAnimationHandler, screenManager);
+    public CounterScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+        super(spineAnimationHandler, screenManager);
     }
 
     @Override

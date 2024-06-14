@@ -17,8 +17,8 @@ public class OptionsScreen extends BaseScreen {
     private TextButton backButton;
     private ScreenManager screenManager;
 
-    public OptionsScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
-        super(assetManager, audioManager, spineAnimationHandler, screenManager);
+    public OptionsScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+        super(spineAnimationHandler, screenManager);
         this.screenManager = screenManager;
     }
 

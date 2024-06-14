@@ -13,12 +13,12 @@ public class ScreenManager {
     private SpriteSheetAnimationHandler spriteSheetAnimationHandler;
     private SpineAnimationHandler spineAnimationHandler;
 
-    public ScreenManager(MyAssetManager assetManager, AudioManager audioManager, ConfigurationManager configManager) {
-        this.assetManager = assetManager;
-        this.audioManager = audioManager;
-        this.configManager = configManager;
-        this.spriteSheetAnimationHandler = new SpriteSheetAnimationHandler(assetManager);
-        this.spineAnimationHandler = new SpineAnimationHandler(assetManager);
+    public ScreenManager() {
+        this.assetManager = MyAssetManager.getInstance();
+        this.audioManager = AudioManager.getInstance();
+        this.configManager = ConfigurationManager.getInstance();
+        this.spriteSheetAnimationHandler = new SpriteSheetAnimationHandler();
+        this.spineAnimationHandler = new SpineAnimationHandler();
     }
 
     public void setScreen(ScreenType screenType) {
@@ -27,22 +27,22 @@ public class ScreenManager {
         }
         switch (screenType) {
             case MENU:
-                currentScreen = new MenuScreen(assetManager, audioManager, spineAnimationHandler, this);
+                currentScreen = new MenuScreen(spineAnimationHandler, this);
                 break;
             case KNIFE1:
-                currentScreen = new SpineKnife1Screen(assetManager, audioManager, spineAnimationHandler, this);
+                currentScreen = new SpineKnife1Screen(spineAnimationHandler, this);
                 break;
             case KNIFE2:
-                currentScreen = new SpineKnife2Screen(assetManager, audioManager, spineAnimationHandler, this);
+                currentScreen = new SpineKnife2Screen(spineAnimationHandler, this);
                 break;
             case OPTIONS:
-                currentScreen = new OptionsScreen(assetManager, audioManager, spineAnimationHandler, this);
+                currentScreen = new OptionsScreen(spineAnimationHandler, this);
                 break;
             case COUNTER:
-                currentScreen = new CounterScreen(assetManager, audioManager, spineAnimationHandler, this);
+                currentScreen = new CounterScreen(spineAnimationHandler, this);
                 break;
             case SPINOSAURUS:
-                currentScreen = new SpinosaurusScreen(assetManager, audioManager, spineAnimationHandler, this);
+                currentScreen = new SpinosaurusScreen(spineAnimationHandler, this);
                 break;
         }
         currentScreen.show();

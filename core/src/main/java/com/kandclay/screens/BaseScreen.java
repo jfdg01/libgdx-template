@@ -30,9 +30,9 @@ public abstract class BaseScreen implements Screen {
     private SnapshotArray<TrailDot> trailDots;
     private int trailDotCount = 0;
 
-    public BaseScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
-        this.assetManager = assetManager;
-        this.audioManager = audioManager;
+    public BaseScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+        this.assetManager = MyAssetManager.getInstance();
+        this.audioManager = AudioManager.getInstance();
         this.spineAnimationHandler = spineAnimationHandler;
         this.screenManager = screenManager;
         this.stage = new Stage(new ScreenViewport());

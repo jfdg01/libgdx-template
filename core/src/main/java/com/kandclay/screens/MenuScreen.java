@@ -17,8 +17,8 @@ public class MenuScreen extends BaseScreen {
 
     ScreenManager screenManager;
 
-    public MenuScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler,ScreenManager screenManager) {
-        super(assetManager, audioManager, spineAnimationHandler, screenManager);
+    public MenuScreen(SpineAnimationHandler spineAnimationHandler,ScreenManager screenManager) {
+        super(spineAnimationHandler, screenManager);
         this.screenManager = screenManager;
     }
 

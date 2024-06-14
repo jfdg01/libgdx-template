@@ -10,8 +10,8 @@ import com.kandclay.managers.MyAssetManager;
 public class SpriteSheetAnimationHandler {
     private MyAssetManager assetManager;
 
-    public SpriteSheetAnimationHandler(MyAssetManager assetManager) {
-        this.assetManager = assetManager;
+    public SpriteSheetAnimationHandler() {
+        this.assetManager = MyAssetManager.getInstance();
     }
 
     public Animation<TextureRegion> createAnimationFromAssetManager(String regionName) {

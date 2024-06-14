@@ -31,8 +31,8 @@ public class SpinosaurusScreen extends BaseScreen {
     private boolean isQuitHovered = false;
     private boolean isSettingsHovered = false;
 
-    public SpinosaurusScreen(MyAssetManager assetManager, AudioManager audioManager, SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
-        super(assetManager, audioManager, spineAnimationHandler, screenManager);
+    public SpinosaurusScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+        super(spineAnimationHandler, screenManager);
     }
 
     @Override

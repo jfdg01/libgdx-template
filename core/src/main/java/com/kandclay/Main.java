@@ -36,9 +36,9 @@ public class Main extends ApplicationAdapter {
         configManager = ConfigurationManager.getInstance();
         assetManager = MyAssetManager.getInstance();
         audioManager = AudioManager.getInstance();
-        screenManager = new ScreenManager(assetManager, audioManager, configManager);
-        spriteSheetAnimationHandler = new SpriteSheetAnimationHandler(assetManager);
-        spineAnimationHandler = new SpineAnimationHandler(assetManager);
+        screenManager = new ScreenManager();
+        spriteSheetAnimationHandler = new SpriteSheetAnimationHandler();
+        spineAnimationHandler = new SpineAnimationHandler();
 
         loadInitialAssets();
 

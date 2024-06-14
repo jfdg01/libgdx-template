@@ -8,8 +8,8 @@ import com.kandclay.managers.MyAssetManager;
 public class SpineAnimationHandler {
     private MyAssetManager assetManager;
 
-    public SpineAnimationHandler(MyAssetManager assetManager) {
-        this.assetManager = assetManager;
+    public SpineAnimationHandler() {
+        this.assetManager = MyAssetManager.getInstance();
     }
 
     public Skeleton createSkeleton(String atlasPath, String skeletonPath) {
