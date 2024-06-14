@@ -39,7 +39,7 @@ public class Main extends ApplicationAdapter {
         spineAnimationHandler = new SpineAnimationHandler(assetManager);
 
         loadInitialAssets();
-        screenManager.setScreen(ScreenType.MENU);
+        screenManager.setScreen(ScreenType.SPINOSAURUS);
         // loadAndPlayRandomMusic();
     }
 
@@ -64,6 +64,7 @@ public class Main extends ApplicationAdapter {
         assetManager.load(Constants.Skin.JSON, Skin.class);
         assetManager.load(Constants.KnifePlanet.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.KnifePlanet2.ATLAS, TextureAtlas.class);
+        assetManager.load(Constants.Spinosaurus.ATLAS, TextureAtlas.class);
 
         assetManager.finishLoading();
     }

@@ -49,10 +49,12 @@ public class CounterScreen extends BaseScreen {
         intervalField = new TextField("", skin);
         intervalField.setMessageText("Interval Time (seconds)");
         intervalField.getStyle().font = largeFont;
+        intervalField.setHeight(largeFont.getLineHeight() + 20); // Adjust height to fit the font size
 
         maxTimeField = new TextField("", skin);
         maxTimeField.setMessageText("Max Time (seconds)");
         maxTimeField.getStyle().font = largeFont;
+        maxTimeField.setHeight(largeFont.getLineHeight() + 20); // Adjust height to fit the font size
 
         timerLabel = new Label("0:00", new Label.LabelStyle(largeFont, Color.WHITE));
 
@@ -70,10 +72,10 @@ public class CounterScreen extends BaseScreen {
         table.setFillParent(true);
         table.center();
         table.add(new Label("Interval:", new Label.LabelStyle(largeFont, Color.WHITE))).pad(20);
-        table.add(intervalField).width(400).pad(20);
+        table.add(intervalField).width(400).height(intervalField.getHeight()).pad(20);
         table.row();
         table.add(new Label("Max Time:", new Label.LabelStyle(largeFont, Color.WHITE))).pad(20);
-        table.add(maxTimeField).width(400).pad(20);
+        table.add(maxTimeField).width(400).height(maxTimeField.getHeight()).pad(20);
         table.row();
         table.add(startButton).colspan(2).pad(20);
         table.row();
@@ -129,4 +131,3 @@ public class CounterScreen extends BaseScreen {
         }
     }
 }
-

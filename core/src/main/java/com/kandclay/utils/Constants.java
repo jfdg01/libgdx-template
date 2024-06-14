@@ -31,6 +31,13 @@ public class Constants {
         public static final String PNG = "spine/knifePlanet2.png";
     }
 
+    public static class Spinosaurus {
+        public static final String ATLAS = "spine/spinosaurus-ess.atlas";
+        public static final String JSON = "spine/spinosaurus-ess.json";
+        public static final String PNG = "spine/spinosaurus-ess.png";
+    }
+
+
     public static class Skin {
         public static final String JSON = "skin/default/skin/uiskin.json";
     }
@@ -52,7 +59,8 @@ public class Constants {
         KNIFE1,
         KNIFE2,
         OPTIONS,
-        COUNTER;
+        COUNTER,
+        SPINOSAURUS;
     }
 
     public enum GameState {
