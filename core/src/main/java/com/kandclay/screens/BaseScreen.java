@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -52,11 +53,14 @@ public abstract class BaseScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
-    @Override
-    public void render(float delta) {
+    public void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
 
+    @Override
+    public void render(float delta) {
+        clearScreen();
         stage.act(delta);
         stage.draw();
     }
@@ -125,9 +129,13 @@ public abstract class BaseScreen implements Screen {
         SkeletonRenderer trailRenderer = new SkeletonRenderer();
         trailRenderer.setPremultipliedAlpha(true);
 
+        float randomScale = MathUtils.random(0.2f, 0.5f);
+        float randomRotation = MathUtils.random(0, 359); // Generate a random rotation between 0 and 360 degrees
+
         trailSkeleton.setPosition(x, y);
         trailSkeleton.setColor(currentColor);
-        trailSkeleton.setScale(0.5f, 0.5f);
+        trailSkeleton.setScale(randomScale, randomScale); // Apply the random scale
+        trailSkeleton.getRootBone().setRotation(randomRotation); // Apply the random rotation to the root bone
 
         trailState.setAnimation(0, "animation", false);
 

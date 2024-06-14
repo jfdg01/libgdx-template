@@ -120,7 +120,7 @@ public class SpinosaurusScreen extends BaseScreen {
         Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(x, y));
 
         if (isHoveringButton(stageCoords.x, stageCoords.y, "play")) {
-            // screenManager.setScreen(Constants.ScreenType.KNIFE1);
+            screenManager.setScreen(Constants.ScreenType.KNIFE2);
         } else if (isHoveringButton(stageCoords.x, stageCoords.y, "quit")) {
             // Gdx.app.exit();
         } else if (isHoveringButton(stageCoords.x, stageCoords.y, "settings")) {

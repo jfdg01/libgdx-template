@@ -219,6 +219,8 @@ public class SpineKnife2Screen extends BaseScreen {
         // Render the counter in the top right corner
         font.draw(batch, "Counter: " + inEventCounter, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 10);
         batch.end();
+
+        super.renderTrail(delta);
     }
 
     @Override
