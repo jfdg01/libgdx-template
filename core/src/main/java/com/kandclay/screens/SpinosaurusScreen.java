@@ -29,6 +29,9 @@ public class SpinosaurusScreen extends BaseScreen {
     private Skeleton skeleton;
     private AnimationState state;
 
+    private Skeleton explosionSkeleton;
+    private AnimationState explosionState;
+
     private BitmapFont font;
     private float speedMultiplier = 1f;
 
@@ -59,7 +62,7 @@ public class SpinosaurusScreen extends BaseScreen {
         // Initialize font
         font = new BitmapFont();
 
-        // Add input listener for hover detection
+        // Add input listener for hover and click detection
         stage.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
@@ -76,8 +79,8 @@ public class SpinosaurusScreen extends BaseScreen {
     }
 
     private void initializeAnimations() {
-        String atlasPath = Constants.Spinosaurus.ATLAS;
-        String skeletonPath = Constants.Spinosaurus.JSON;
+        String atlasPath = Constants.UI.ATLAS;
+        String skeletonPath = Constants.UI.JSON;
 
         skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
         state = spineAnimationHandler.createAnimationState(skeleton);
@@ -85,6 +88,13 @@ public class SpinosaurusScreen extends BaseScreen {
 
         setSkeletonPosition();
         state.setAnimation(0, "animation", false);
+
+        // Load explosion animation
+        String explosionAtlasPath = Constants.UI.EXPLOSION_ATLAS;
+        String explosionSkeletonPath = Constants.UI.EXPLOSION_JSON;
+
+        explosionSkeleton = spineAnimationHandler.createSkeleton(explosionAtlasPath, explosionSkeletonPath);
+        explosionState = spineAnimationHandler.createAnimationState(explosionSkeleton);
     }
 
     private void handleHover(float x, float y) {
@@ -130,10 +140,16 @@ public class SpinosaurusScreen extends BaseScreen {
     private void handleClick(float x, float y) {
         Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(x, y));
 
+        explosionSkeleton.setPosition(x, y);
+        explosionState.setAnimation(0, "animation", false);
+
         if (isHoveringButton(stageCoords.x, stageCoords.y, "play")) {
-            screenManager.setScreen(Constants.ScreenType.KNIFE1);
+            // screenManager.setScreen(Constants.ScreenType.KNIFE1);
+        } else if (isHoveringButton(stageCoords.x, stageCoords.y, "quit")) {
+            // Gdx.app.exit();
+        } else if (isHoveringButton(stageCoords.x, stageCoords.y, "settings")) {
+            // screenManager.setScreen(Constants.ScreenType.OPTIONS);
         }
-        // Handle other button clicks if needed
     }
 
     private boolean isHoveringButton(float x, float y, String buttonName) {
@@ -148,15 +164,11 @@ public class SpinosaurusScreen extends BaseScreen {
         RegionAttachment attachment = (RegionAttachment) skeleton.findSlot(buttonName).getAttachment();
         if (attachment == null) return new Rectangle();
 
-        // Get the world position of the bone
         float buttonX = bone.getWorldX() - (attachment.getWidth() * bone.getScaleX() / 2);
         float buttonY = bone.getWorldY() - (attachment.getHeight() * bone.getScaleY() / 2);
-
-        // Get the size of the attachment
         float buttonWidth = attachment.getWidth() * bone.getScaleX();
         float buttonHeight = attachment.getHeight() * bone.getScaleY();
 
-        // Adjust coordinates to match the bottom-left origin of the screen
         buttonY = camera.viewportHeight - buttonY - buttonHeight;
 
         return new Rectangle(buttonX, buttonY, buttonWidth, buttonHeight);
@@ -167,18 +179,22 @@ public class SpinosaurusScreen extends BaseScreen {
         super.render(delta);
 
         state.update(delta * speedMultiplier);
+        explosionState.update(delta);
 
         state.apply(skeleton);
+        explosionState.apply(explosionSkeleton);
+
         skeleton.updateWorldTransform();
+        explosionSkeleton.updateWorldTransform();
 
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
         renderer.draw(batch, skeleton);
+        renderer.draw(batch, explosionSkeleton);
         batch.end();
 
-        // Ensure the skeleton position is updated every frame to follow the center
         setSkeletonPosition();
     }
 
@@ -191,7 +207,6 @@ public class SpinosaurusScreen extends BaseScreen {
     }
 
     private void setSkeletonPosition() {
-        // Center the skeleton on the screen
         float centerX = camera.viewportWidth / 2;
         float centerY = camera.viewportHeight / 2;
         skeleton.setPosition(centerX, centerY);

@@ -31,11 +31,13 @@ public class Constants {
         public static final String PNG = "spine/knifePlanet2.png";
     }
 
-    public static class Spinosaurus {
+    public static class UI {
         public static final String ATLAS = "spine/spinosaurus-ess.atlas";
         public static final String JSON = "spine/spinosaurus-ess.json";
-        public static final String PNG = "spine/spinosaurus-ess.png";
+        public static final String EXPLOSION_ATLAS = "spine/explosion.atlas";
+        public static final String EXPLOSION_JSON = "spine/explosion.json";
     }
+
 
 
     public static class Skin {
