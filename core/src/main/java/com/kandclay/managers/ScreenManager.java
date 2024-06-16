@@ -27,22 +27,13 @@ public class ScreenManager {
         }
         switch (screenType) {
             case MENU:
-                currentScreen = new MenuScreen(spineAnimationHandler, this);
+                currentScreen = new MainMenuScreen(spineAnimationHandler, this);
                 break;
-            case KNIFE1:
-                currentScreen = new SpineKnife1Screen(spineAnimationHandler, this);
-                break;
-            case KNIFE2:
-                currentScreen = new SpineKnife2Screen(spineAnimationHandler, this);
+            case GAME:
+                currentScreen = new MainAnimationScreen(spineAnimationHandler, this);
                 break;
             case OPTIONS:
-                currentScreen = new OptionsScreen(spineAnimationHandler, this);
-                break;
-            case COUNTER:
-                currentScreen = new CounterScreen(spineAnimationHandler, this);
-                break;
-            case SPINOSAURUS:
-                currentScreen = new SpinosaurusScreen(spineAnimationHandler, this);
+                currentScreen = new ConfigurationSCreen(spineAnimationHandler, this);
                 break;
         }
         currentScreen.show();

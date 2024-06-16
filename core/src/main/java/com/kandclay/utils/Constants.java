@@ -60,11 +60,8 @@ public class Constants {
 
     public enum ScreenType {
         MENU,
-        KNIFE1,
-        KNIFE2,
+        GAME,
         OPTIONS,
-        COUNTER,
-        SPINOSAURUS;
     }
 
     public enum GameState {

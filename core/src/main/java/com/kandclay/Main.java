@@ -44,7 +44,7 @@ public class Main extends ApplicationAdapter {
 
         loadCustomCursor();
 
-        screenManager.setScreen(ScreenType.SPINOSAURUS);
+        screenManager.setScreen(ScreenType.MENU);
         // loadAndPlayRandomMusic();
     }
 

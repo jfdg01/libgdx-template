@@ -15,6 +15,7 @@ import com.esotericsoftware.spine.Skeleton;
 import com.esotericsoftware.spine.SkeletonRenderer;
 import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.managers.AudioManager;
+import com.kandclay.managers.ConfigurationManager;
 import com.kandclay.managers.MyAssetManager;
 import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
@@ -26,6 +27,7 @@ public abstract class BaseScreen implements Screen {
     protected MyAssetManager assetManager;
     protected AudioManager audioManager;
     protected SpineAnimationHandler spineAnimationHandler;
+    protected ConfigurationManager configManager;
     protected ScreenManager screenManager;
     private SnapshotArray<TrailDot> trailDots;
     private int trailDotCount = 0;
@@ -33,6 +35,7 @@ public abstract class BaseScreen implements Screen {
     public BaseScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         this.assetManager = MyAssetManager.getInstance();
         this.audioManager = AudioManager.getInstance();
+        this.configManager = ConfigurationManager.getInstance();
         this.spineAnimationHandler = spineAnimationHandler;
         this.screenManager = screenManager;
         this.stage = new Stage(new ScreenViewport());

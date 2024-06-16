@@ -1,7 +1,6 @@
 package com.kandclay.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,7 +16,7 @@ import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.utils.Constants;
 import com.kandclay.managers.*;
 
-public class SpineKnife2Screen extends BaseScreen {
+public class MainAnimationScreen extends BaseScreen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private SkeletonRenderer renderer;
@@ -39,7 +38,7 @@ public class SpineKnife2Screen extends BaseScreen {
     private boolean animationStarted = false;
     private float lastSliderValue = 0f; // Track last slider value for changes
 
-    public SpineKnife2Screen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+    public MainAnimationScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(spineAnimationHandler, screenManager);
         this.spineAnimationHandler = spineAnimationHandler;
     }

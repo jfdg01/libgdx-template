@@ -1,23 +1,19 @@
 package com.kandclay.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.kandclay.handlers.SpineAnimationHandler;
-import com.kandclay.managers.AudioManager;
-import com.kandclay.managers.MyAssetManager;
 import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
 
-public class OptionsScreen extends BaseScreen {
+public class ConfigurationSCreen extends BaseScreen {
 
     private Slider volumeSlider;
     private TextButton backButton;
     private ScreenManager screenManager;
 
-    public OptionsScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+    public ConfigurationSCreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(spineAnimationHandler, screenManager);
         this.screenManager = screenManager;
     }

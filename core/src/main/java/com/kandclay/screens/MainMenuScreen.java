@@ -14,12 +14,11 @@ import com.esotericsoftware.spine.Skeleton;
 import com.esotericsoftware.spine.SkeletonRenderer;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.kandclay.handlers.SpineAnimationHandler;
-import com.kandclay.managers.AudioManager;
-import com.kandclay.managers.MyAssetManager;
 import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
 
-public class SpinosaurusScreen extends BaseScreen {
+public class MainMenuScreen extends BaseScreen {
+
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private SkeletonRenderer renderer;
@@ -31,7 +30,7 @@ public class SpinosaurusScreen extends BaseScreen {
     private boolean isQuitHovered = false;
     private boolean isSettingsHovered = false;
 
-    public SpinosaurusScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+    public MainMenuScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(spineAnimationHandler, screenManager);
     }
 
@@ -120,11 +119,11 @@ public class SpinosaurusScreen extends BaseScreen {
         Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(x, y));
 
         if (isHoveringButton(stageCoords.x, stageCoords.y, "play")) {
-            screenManager.setScreen(Constants.ScreenType.KNIFE2);
+            screenManager.setScreen(Constants.ScreenType.GAME);
         } else if (isHoveringButton(stageCoords.x, stageCoords.y, "quit")) {
-            // Gdx.app.exit();
+            Gdx.app.exit();
         } else if (isHoveringButton(stageCoords.x, stageCoords.y, "settings")) {
-            // screenManager.setScreen(Constants.ScreenType.OPTIONS);
+            screenManager.setScreen(Constants.ScreenType.OPTIONS);
         }
     }
 
