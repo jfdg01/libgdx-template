@@ -43,11 +43,6 @@ public class Constants {
         public static final int MAX_ROTATION = 359;
     }
 
-    public static class MainAnimation {
-        public static final String ATLAS = "spine/main.atlas";
-        public static final String JSON = "spine/main.json";
-    }
-
     public static class MainMenu {
         public static final String ATLAS = "spine/menu.atlas";
         public static final String JSON = "spine/menu.json";

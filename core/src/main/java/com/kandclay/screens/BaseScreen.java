@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -68,8 +69,7 @@ public abstract class BaseScreen implements Screen {
         stage.draw();
     }
 
-    void renderTrail(float delta) {
-        stage.getBatch().begin();
+    void renderTrail(float delta, SpriteBatch batch) {
         Iterator<TrailDot> iterator = trailDots.iterator();
         while (iterator.hasNext()) {
             TrailDot trailDot = iterator.next();
@@ -78,14 +78,14 @@ public abstract class BaseScreen implements Screen {
             trailDot.skeleton.updateWorldTransform();
             trailDot.skeleton.setPosition(trailDot.x, trailDot.y);
 
-            trailDot.renderer.draw(stage.getBatch(), trailDot.skeleton);
+            trailDot.renderer.draw(batch, trailDot.skeleton);
 
             if (trailDot.state.getCurrent(0) == null || trailDot.state.getCurrent(0).isComplete()) {
                 iterator.remove();
             }
         }
-        stage.getBatch().end();
     }
+
 
     @Override
     public void resize(int width, int height) {

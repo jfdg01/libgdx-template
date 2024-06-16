@@ -227,9 +227,15 @@ public class MainAnimationScreen extends BaseScreen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        // Start a new batch for rendering the animation
         batch.begin();
         renderer.draw(batch, skeleton);
+        super.renderTrail(delta, batch);  // Pass the batch to renderTrail
         batch.end();
+
+        // Draw the stage which includes UI elements
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
@@ -242,8 +248,8 @@ public class MainAnimationScreen extends BaseScreen {
 
     private void setSkeletonPosition() {
         // Center the skeleton on the screen
-        float centerX = camera.viewportWidth / 2 - skeleton.getData().getWidth() / 2;
-        float centerY = camera.viewportHeight / 2 - skeleton.getData().getHeight() / 2;
+        float centerX = (camera.viewportWidth - skeleton.getData().getWidth()) / 2;
+        float centerY = (camera.viewportHeight - skeleton.getData().getHeight()) / 2;
         skeleton.setPosition(centerX, centerY);
     }
 

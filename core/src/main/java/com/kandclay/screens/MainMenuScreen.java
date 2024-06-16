@@ -162,10 +162,11 @@ public class MainMenuScreen extends BaseScreen {
 
         batch.begin();
         renderer.draw(batch, skeleton);
+        super.renderTrail(delta, batch);
         batch.end();
 
         setSkeletonPosition();
-        super.renderTrail(delta);
+
     }
 
     @Override
