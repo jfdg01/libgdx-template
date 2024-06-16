@@ -2,6 +2,7 @@ package com.kandclay.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -28,6 +29,7 @@ public class MainMenuScreen extends BaseScreen {
     private boolean isPlayHovered = false;
     private boolean isQuitHovered = false;
     private boolean isSettingsHovered = false;
+    private Texture backgroundTexture;
 
     public MainMenuScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(spineAnimationHandler, screenManager);
@@ -45,6 +47,9 @@ public class MainMenuScreen extends BaseScreen {
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         font = new BitmapFont();
+
+        // Load the background texture
+        backgroundTexture = assetManager.get("background.jpg", Texture.class);
 
         stage.addListener(new InputListener() {
             @Override
@@ -159,6 +164,8 @@ public class MainMenuScreen extends BaseScreen {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
+        // Draw the background
+        batch.draw(backgroundTexture, 0, 0, camera.viewportWidth, camera.viewportHeight);
         renderer.draw(batch, skeleton);
         super.renderTrail(delta);
         batch.end();
@@ -184,5 +191,6 @@ public class MainMenuScreen extends BaseScreen {
     public void dispose() {
         super.dispose();
         font.dispose();
+        backgroundTexture.dispose(); // Dispose the background texture
     }
 }

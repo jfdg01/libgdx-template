@@ -58,7 +58,7 @@ public class MainAnimationScreen extends BaseScreen {
         Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
 
         // Initialize back button
-        backButton = new TextButton("Back to Menu", skin, "snacktime-button");
+        backButton = new TextButton("Back to Menu", skin,  Constants.Font.BUTTON);
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -85,7 +85,7 @@ public class MainAnimationScreen extends BaseScreen {
         });
 
         // Initialize mode button
-        modeButton = new TextButton("Switch to Manual Mode", skin, "snacktime-button");
+        modeButton = new TextButton("Switch to Manual Mode", skin,  Constants.Font.BUTTON);
         modeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -101,7 +101,7 @@ public class MainAnimationScreen extends BaseScreen {
         });
 
         // Initialize change color button
-        changeColorButton = new TextButton("Change Coin Color", skin, "snacktime-button");
+        changeColorButton = new TextButton("Change Coin Color", skin,  Constants.Font.BUTTON);
         changeColorButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -110,7 +110,7 @@ public class MainAnimationScreen extends BaseScreen {
         });
 
         // Initialize speed control buttons
-        TextButton speed1xButton = new TextButton("1x", skin, "snacktime-button");
+        TextButton speed1xButton = new TextButton("1x", skin,  Constants.Font.BUTTON);
         speed1xButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -119,7 +119,7 @@ public class MainAnimationScreen extends BaseScreen {
             }
         });
 
-        TextButton speed2xButton = new TextButton("2x", skin, "snacktime-button");
+        TextButton speed2xButton = new TextButton("2x", skin,  Constants.Font.BUTTON);
         speed2xButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -128,7 +128,7 @@ public class MainAnimationScreen extends BaseScreen {
             }
         });
 
-        TextButton speed3xButton = new TextButton("3x", skin, "snacktime-button");
+        TextButton speed3xButton = new TextButton("3x", skin,  Constants.Font.BUTTON);
         speed3xButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

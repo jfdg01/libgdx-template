@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -53,6 +54,7 @@ public class Main extends ApplicationAdapter {
         assetManager.load(Constants.CursorTrail.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.Coin.Yellow.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.Coin.Red.ATLAS, TextureAtlas.class);
+        assetManager.load(Constants.Background.PATH, Texture.class);
 
         assetManager.finishLoading();
         addFontsToSkin();
@@ -60,20 +62,20 @@ public class Main extends ApplicationAdapter {
 
     private void addFontsToSkin() {
         Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
-        BitmapFont snacktimeFont = generateFont(Constants.Font.PATH, 24);
-        skin.add("snacktime-font", snacktimeFont, BitmapFont.class);
+        BitmapFont customFont = generateFont(Constants.Font.PATH, 24);
+        skin.add(Constants.Font.FONT, customFont, BitmapFont.class);
 
-        Label.LabelStyle snacktimeLabelStyle = new Label.LabelStyle();
-        snacktimeLabelStyle.font = snacktimeFont;
-        skin.add("snacktime-label", snacktimeLabelStyle);
+        Label.LabelStyle customLabelStyle = new Label.LabelStyle();
+        customLabelStyle.font = customFont;
+        skin.add(Constants.Font.LABEL, customLabelStyle);
 
         // Add ButtonStyle
-        TextButton.TextButtonStyle snacktimeButtonStyle = new TextButton.TextButtonStyle();
-        snacktimeButtonStyle.font = snacktimeFont;
-        snacktimeButtonStyle.up = skin.getDrawable("default-rect");
-        snacktimeButtonStyle.down = skin.getDrawable("default-rect-down");
-        snacktimeButtonStyle.checked = skin.getDrawable("default-rect");
-        skin.add("snacktime-button", snacktimeButtonStyle);
+        TextButton.TextButtonStyle customButtonStyle = new TextButton.TextButtonStyle();
+        customButtonStyle.font = customFont;
+        customButtonStyle.up = skin.getDrawable("default-rect");
+        customButtonStyle.down = skin.getDrawable("default-rect-down");
+        customButtonStyle.checked = skin.getDrawable("default-rect");
+        skin.add(Constants.Font.BUTTON, customButtonStyle);
     }
 
     private BitmapFont generateFont(String fontFile, int size) {

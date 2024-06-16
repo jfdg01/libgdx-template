@@ -51,7 +51,7 @@ public class ConfigurationScreen extends BaseScreen {
         });
 
         // Create a back button with the new font style
-        backButton = new TextButton("Back", skin, "snacktime-button");
+        backButton = new TextButton("Back", skin, Constants.Font.BUTTON);
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -60,7 +60,7 @@ public class ConfigurationScreen extends BaseScreen {
         });
 
         // Create other buttons with the new font style
-        hairColorButton = new TextButton("Hair Color: " + currentHairColor, skin, "snacktime-button");
+        hairColorButton = new TextButton("Hair Color: " + currentHairColor, skin,  Constants.Font.BUTTON);
         hairColorButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -70,7 +70,7 @@ public class ConfigurationScreen extends BaseScreen {
             }
         });
 
-        heightButton = new TextButton("Height: " + currentHeight, skin, "snacktime-button");
+        heightButton = new TextButton("Height: " + currentHeight, skin,  Constants.Font.BUTTON);
         heightButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -80,7 +80,7 @@ public class ConfigurationScreen extends BaseScreen {
             }
         });
 
-        coinColorButton = new TextButton("Coin Color: " + (isYellowCoin ? "Yellow" : "Red"), skin, "snacktime-button");
+        coinColorButton = new TextButton("Coin Color: " + (isYellowCoin ? "Yellow" : "Red"), skin,  Constants.Font.BUTTON);
         coinColorButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -94,8 +94,8 @@ public class ConfigurationScreen extends BaseScreen {
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-        table.add(new Label("Options", skin, "snacktime-label")).padBottom(Constants.Buttons.PADDING).row();
-        table.add(new Label("Volume", skin, "snacktime-label")).padBottom(Constants.Buttons.PADDING).row();
+        table.add(new Label("Options", skin, Constants.Font.LABEL)).padBottom(Constants.Buttons.PADDING).row();
+        table.add(new Label("Volume", skin, Constants.Font.LABEL)).padBottom(Constants.Buttons.PADDING).row();
         table.add(volumeSlider).width(Constants.Buttons.SLIDER_WIDTH).padBottom(Constants.Buttons.PADDING).row();
         table.add(hairColorButton).width(Constants.Buttons.CONTROL_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).padBottom(Constants.Buttons.PADDING).row();
         table.add(heightButton).width(Constants.Buttons.CONTROL_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).padBottom(Constants.Buttons.PADDING).row();

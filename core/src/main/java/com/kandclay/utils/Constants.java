@@ -103,8 +103,15 @@ public class Constants {
         }
     }
 
-    public class Font {
+    public static class Font {
         public static final String PATH = "fonts/Playground.ttf";
+        public static final String BUTTON = "custom-button";
+        public static final String LABEL = "custom-label";
+        public static final String FONT = "custom-font";
+    }
+
+    public static class Background {
+        public static final String PATH = "background.jpg";
     }
 }
 
