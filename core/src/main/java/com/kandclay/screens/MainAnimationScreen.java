@@ -20,22 +20,19 @@ public class MainAnimationScreen extends BaseScreen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private SkeletonRenderer renderer;
-    private SkeletonRendererDebug debugRenderer;
     private SpineAnimationHandler spineAnimationHandler;
 
     private Skeleton skeleton;
     private AnimationState state;
 
+    private boolean isYellowCoin;
+    private TextButton backButton;
     private Slider slider;
     private TextButton modeButton;
     private BitmapFont font;
 
     private boolean isLooping = true; // Set initial state to automatic (looping)
-
-    private int inEventCounter = 0;
-    private boolean inEventTriggered = false;
     private float speedMultiplier = 1f;
-    private boolean animationStarted = false;
     private float lastSliderValue = 0f; // Track last slider value for changes
 
     public MainAnimationScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
@@ -51,11 +48,27 @@ public class MainAnimationScreen extends BaseScreen {
         batch = new SpriteBatch();
         renderer = new SkeletonRenderer();
         renderer.setPremultipliedAlpha(true);
-        debugRenderer = new SkeletonRendererDebug();
+
+        // Load the coin color preference
+        isYellowCoin = configManager.getPreference("coinColor", true);
 
         initializeAnimations();
 
+        // Set up the camera
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
+
+        // Initialize back button
+        backButton = new TextButton("Back to Menu", skin);
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                screenManager.setScreen(Constants.ScreenType.MENU);
+            }
+        });
+
+        // Initialize slider
         slider = new Slider(0, 1, 0.01f, false, skin);
         slider.addListener(new ChangeListener() {
             @Override
@@ -65,11 +78,6 @@ public class MainAnimationScreen extends BaseScreen {
                     float animationDuration = state.getCurrent(0).getAnimation().getDuration();
                     state.getCurrent(0).setTrackTime(progress * animationDuration);
 
-                    // Reset the event trigger flag if the slider is moved back past the trigger point
-                    if (progress < 0.5f) {
-                        inEventTriggered = false;
-                    }
-
                     if (progress != lastSliderValue) {
                         lastSliderValue = progress;
                         System.out.println("Slider changed: " + slider.getValue() + " Mode: Manual");
@@ -78,22 +86,23 @@ public class MainAnimationScreen extends BaseScreen {
             }
         });
 
-        modeButton = new TextButton("Pasar a modo manual", skin); // Set initial button text to switch to manual
+        // Initialize mode button
+        modeButton = new TextButton("Switch to Manual Mode", skin);
         modeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isLooping = !isLooping;
                 System.out.println("Mode changed to: " + (isLooping ? "Automatic" : "Manual"));
                 if (isLooping) {
-                    modeButton.setText("Pasar a modo manual");
+                    modeButton.setText("Switch to Manual Mode");
                     state.setAnimation(0, "animation", true);  // Restart the animation loop
                 } else {
-                    modeButton.setText("Pasar a modo automatico");
+                    modeButton.setText("Switch to Automatic Mode");
                 }
             }
         });
 
-        // Speed control buttons
+        // Initialize speed control buttons
         TextButton speed1xButton = new TextButton("1x", skin);
         speed1xButton.addListener(new ChangeListener() {
             @Override
@@ -121,6 +130,7 @@ public class MainAnimationScreen extends BaseScreen {
             }
         });
 
+        // Create control table for speed buttons
         Table controlTable = new Table();
         controlTable.top().left();
         controlTable.setFillParent(true);
@@ -128,26 +138,32 @@ public class MainAnimationScreen extends BaseScreen {
         controlTable.add(speed2xButton).size(Constants.Buttons.BUTTON_WIDTH, Constants.Buttons.BUTTON_HEIGHT).pad(Constants.Buttons.PADDING).row();
         controlTable.add(speed3xButton).size(Constants.Buttons.BUTTON_WIDTH, Constants.Buttons.BUTTON_HEIGHT).pad(Constants.Buttons.PADDING).row();
 
-        Table table = new Table();
-        table.setFillParent(true);
-        table.bottom();
-        table.add(slider).width(Constants.Buttons.SLIDER_WIDTH).padBottom(Constants.Buttons.PADDING);
-        table.row();
-        table.add(modeButton).padBottom(Constants.Buttons.PADDING);
+        // Create table for slider and mode button
+        Table bottomTable = new Table();
+        bottomTable.setFillParent(true);
+        bottomTable.bottom();
+        bottomTable.add(slider).width(Constants.Buttons.SLIDER_WIDTH).padBottom(Constants.Buttons.PADDING);
+        bottomTable.row();
+        bottomTable.add(modeButton).padBottom(Constants.Buttons.PADDING);
 
+        // Create table for back button
+        Table backButtonTable = new Table();
+        backButtonTable.setFillParent(true);
+        backButtonTable.bottom().left();
+        backButtonTable.add(backButton).width(Constants.Buttons.BACK_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).pad(Constants.Buttons.PADDING);
+
+        // Add all tables to the stage
         stage.addActor(controlTable);
-        stage.addActor(table);
-
-        // Set up the camera
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.addActor(bottomTable);
+        stage.addActor(backButtonTable);
 
         // Initialize font
         font = new BitmapFont();
     }
 
     private void initializeAnimations() {
-        String atlasPath = Constants.Coin.ATLAS;
-        String skeletonPath = Constants.Coin.JSON;
+        String atlasPath = isYellowCoin ? Constants.Coin.ATLAS : Constants.CoinRed.ATLAS;
+        String skeletonPath = isYellowCoin ? Constants.Coin.JSON : Constants.CoinRed.JSON;
 
         skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
         state = spineAnimationHandler.createAnimationState(skeleton);
@@ -158,49 +174,20 @@ public class MainAnimationScreen extends BaseScreen {
         state.setAnimation(0, "animation", true);  // Loop the animation by default
 
         state.addListener(new AnimationState.AnimationStateAdapter() {
-
             @Override
             public void start(AnimationState.TrackEntry entry) {
                 System.out.println("Animation started");
-                animationStarted = true;
-            }
-
-            @Override
-            public void interrupt(AnimationState.TrackEntry entry) {
-                System.out.println("Animation interrupted");
-                animationStarted = false;
-            }
-
-            @Override
-            public void event(AnimationState.TrackEntry entry, com.esotericsoftware.spine.Event event) {
-                if ("splatter".equals(event.getData().getName()) && !inEventTriggered) {
-                    inEventCounter++;
-                    inEventTriggered = true;  // Mark event as triggered
-                    System.out.println("Event 'splatter' triggered! Counter: " + inEventCounter);
-                }
             }
 
             @Override
             public void complete(AnimationState.TrackEntry entry) {
-                // Reset the event trigger flag when the animation completes a loop
                 System.out.println("Animation completed");
-                inEventTriggered = false;
-                animationStarted = false;
-            }
-
-            @Override
-            public void end(AnimationState.TrackEntry entry) {
-                // This will be called at the end of the animation loop
-                System.out.println("Animation ended, starting new loop");
-                inEventTriggered = false;
-                animationStarted = true; // Ensure the start message for the new loop
             }
         });
     }
 
     @Override
     public void render(float delta) {
-
         super.render(delta);
 
         if (isLooping) {
@@ -215,11 +202,7 @@ public class MainAnimationScreen extends BaseScreen {
 
         batch.begin();
         renderer.draw(batch, skeleton);
-        // Render the counter in the top right corner
-        font.draw(batch, "Counter: " + inEventCounter, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 10);
         batch.end();
-
-        super.renderTrail(delta);
     }
 
     @Override
