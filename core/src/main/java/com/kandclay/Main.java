@@ -52,7 +52,7 @@ public class Main extends ApplicationAdapter {
         assetManager.load(Constants.Skin.JSON, Skin.class);
         assetManager.load(Constants.MainMenu.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.CursorTrail.ATLAS, TextureAtlas.class);
-        assetManager.load(Constants.MainAnimation.ATLAS, TextureAtlas.class);
+        // assetManager.load(Constants.MainAnimation.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.Coin.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.CoinRed.ATLAS, TextureAtlas.class);
 

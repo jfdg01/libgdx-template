@@ -146,12 +146,12 @@ public class MainAnimationScreen extends BaseScreen {
     }
 
     private void initializeAnimations() {
-        String atlasPath = Constants.MainAnimation.ATLAS;
-        String skeletonPath = Constants.MainAnimation.JSON;
+        String atlasPath = Constants.Coin.ATLAS;
+        String skeletonPath = Constants.Coin.JSON;
 
         skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
         state = spineAnimationHandler.createAnimationState(skeleton);
-        skeleton.setScale(4f, 4f);
+        skeleton.setScale(1f, 1f);
 
         setSkeletonPosition();
 

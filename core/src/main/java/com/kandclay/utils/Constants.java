@@ -33,7 +33,7 @@ public class Constants {
     }
 
     public static class TrailDot {
-        public static final int NUMBER_OF_COLORS = 360;
+        public static final int NUMBER_OF_COLORS = 360; // Maintain at 360 for full color rotation
         public static final float SATURATION = 1.0f;
         public static final float VALUE = 1.0f;
         public static final float ALPHA = 0.5f;

@@ -13,9 +13,11 @@ public class ConfigurationScreen extends BaseScreen {
     private TextButton backButton;
     private TextButton hairColorButton;
     private TextButton heightButton;
+    private TextButton coinColorButton;
 
     private Constants.HairColor currentHairColor;
     private Constants.Height currentHeight;
+    private boolean isYellowCoin;
 
     public ConfigurationScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(spineAnimationHandler, screenManager);
@@ -32,6 +34,7 @@ public class ConfigurationScreen extends BaseScreen {
         float savedVolume = configManager.getPreference("volume", Constants.Audio.DEFAULT_VOLUME);
         String savedHairColor = configManager.getPreference("hairColor", Constants.HairColor.BLONDE.toString());
         String savedHeight = configManager.getPreference("height", Constants.Height.AVERAGE.toString());
+        isYellowCoin = configManager.getPreference("coinColor", true); // Default to yellow coin
 
         currentHairColor = Constants.HairColor.valueOf(savedHairColor);
         currentHeight = Constants.Height.valueOf(savedHeight);
@@ -79,6 +82,17 @@ public class ConfigurationScreen extends BaseScreen {
             }
         });
 
+        // Create a coin color button
+        coinColorButton = new TextButton("Coin Color: " + (isYellowCoin ? "Yellow" : "Red"), skin);
+        coinColorButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                isYellowCoin = !isYellowCoin;
+                coinColorButton.setText("Coin Color: " + (isYellowCoin ? "Yellow" : "Red"));
+                configManager.setPreference("coinColor", isYellowCoin); // Save coin color preference
+            }
+        });
+
         // Arrange the UI elements in a table
         Table table = new Table();
         table.setFillParent(true);
@@ -88,6 +102,7 @@ public class ConfigurationScreen extends BaseScreen {
         table.add(volumeSlider).width(Constants.Buttons.SLIDER_WIDTH).padBottom(Constants.Buttons.PADDING).row();
         table.add(hairColorButton).width(Constants.Buttons.CONTROL_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).padBottom(Constants.Buttons.PADDING).row();
         table.add(heightButton).width(Constants.Buttons.CONTROL_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).padBottom(Constants.Buttons.PADDING).row();
+        table.add(coinColorButton).width(Constants.Buttons.CONTROL_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).padBottom(Constants.Buttons.PADDING).row();
         table.add(backButton).width(Constants.Buttons.BACK_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).padTop(Constants.Buttons.PADDING);
 
         stage.addActor(table);
