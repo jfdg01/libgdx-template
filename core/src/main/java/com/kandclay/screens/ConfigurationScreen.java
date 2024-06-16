@@ -14,8 +14,8 @@ public class ConfigurationScreen extends BaseScreen {
     private TextButton hairColorButton;
     private TextButton heightButton;
 
-    private Constants.HairColor currentHairColor = Constants.HairColor.BLONDE;
-    private Constants.Height currentHeight = Constants.Height.AVERAGE;
+    private Constants.HairColor currentHairColor;
+    private Constants.Height currentHeight;
 
     public ConfigurationScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(spineAnimationHandler, screenManager);
@@ -28,13 +28,23 @@ public class ConfigurationScreen extends BaseScreen {
 
         Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
 
+        // Load preferences
+        float savedVolume = configManager.getPreference("volume", Constants.Audio.DEFAULT_VOLUME);
+        String savedHairColor = configManager.getPreference("hairColor", Constants.HairColor.BLONDE.toString());
+        String savedHeight = configManager.getPreference("height", Constants.Height.AVERAGE.toString());
+
+        currentHairColor = Constants.HairColor.valueOf(savedHairColor);
+        currentHeight = Constants.Height.valueOf(savedHeight);
+
         // Create a slider for volume control
         volumeSlider = new Slider(0, 1, 0.01f, false, skin);
-        volumeSlider.setValue(audioManager.getVolume());
+        volumeSlider.setValue(savedVolume);
         volumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                audioManager.setVolume(volumeSlider.getValue());
+                float volume = volumeSlider.getValue();
+                audioManager.setVolume(volume);
+                configManager.setPreference("volume", volume); // Save volume preference
             }
         });
 
@@ -54,7 +64,7 @@ public class ConfigurationScreen extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 currentHairColor = currentHairColor.next();
                 hairColorButton.setText("Hair Color: " + currentHairColor);
-                configManager.setPreference("hairColor", currentHairColor.toString());
+                configManager.setPreference("hairColor", currentHairColor.toString()); // Save hair color preference
             }
         });
 
@@ -65,7 +75,7 @@ public class ConfigurationScreen extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 currentHeight = currentHeight.next();
                 heightButton.setText("Height: " + currentHeight);
-                configManager.setPreference("height", currentHeight.toString());
+                configManager.setPreference("height", currentHeight.toString()); // Save height preference
             }
         });
 

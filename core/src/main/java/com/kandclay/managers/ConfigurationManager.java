@@ -9,7 +9,7 @@ public class ConfigurationManager {
 
     // Private constructor to prevent instantiation
     private ConfigurationManager() {
-        preferences = Gdx.app.getPreferences("MyGamePreferences");
+        preferences = Gdx.app.getPreferences("config");
     }
 
     // Thread-safe method to get the singleton instance
@@ -37,7 +37,6 @@ public class ConfigurationManager {
         return preferences.getFloat(key, defaultValue);
     }
 
-    // Method to set a preference value
     public void setPreference(String key, String value) {
         preferences.putString(key, value);
         preferences.flush();  // Ensure changes are saved
@@ -79,30 +78,6 @@ public class ConfigurationManager {
     public void handlePreferenceError(String key, Exception e) {
         System.err.println("Error accessing preference: " + key);
         e.printStackTrace();
-    }
-
-    // Example of using the ConfigurationManager
-    public static void main(String[] args) {
-        ConfigurationManager config = ConfigurationManager.getInstance();
-
-        // Setting preferences
-        config.setPreference("volume", 0.8f);
-        config.setPreference("musicEnabled", true);
-
-        // Getting preferences
-        float volume = config.getPreference("volume", 1.0f);
-        boolean musicEnabled = config.getPreference("musicEnabled", false);
-
-        // Checking if a preference exists
-        if (config.hasPreference("volume")) {
-            System.out.println("Volume preference is set.");
-        }
-
-        // Removing a preference
-        config.removePreference("musicEnabled");
-
-        // Clearing all preferences
-        config.clearPreferences();
     }
 }
 
