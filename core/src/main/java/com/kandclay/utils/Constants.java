@@ -19,28 +19,40 @@ public class Constants {
         public static final int SLIDER_WIDTH = 300;
     }
 
-    public static class KnifePlanet {
-        public static final String ATLAS = "spine/knifePlanet.atlas";
-        public static final String JSON = "spine/knifePlanet.json";
-        public static final String PNG = "spine/knifePlanet.png";
+    public static class Audio {
+        public static final float DEFAULT_VOLUME = 1f;
     }
 
-    public static class KnifePlanet2 {
-        public static final String ATLAS = "spine/knifePlanet2.atlas";
-        public static final String JSON = "spine/knifePlanet2.json";
-        public static final String PNG = "spine/knifePlanet2.png";
+    public static class Cursor {
+        public static final int HOTSPOT_X = 0;
+        public static final int HOTSPOT_Y = 0;
     }
 
-    public static class Spinosaurus {
-        public static final String ATLAS = "spine/spinosaurus-ess.atlas";
-        public static final String JSON = "spine/spinosaurus-ess.json";
+    public static class TrailDot {
+        public static final int NUMBER_OF_COLORS = 360;
+        public static final float SATURATION = 1.0f;
+        public static final float VALUE = 1.0f;
+        public static final float ALPHA = 0.5f;
+        public static final float MIN_SCALE = 0.2f;
+        public static final float MAX_SCALE = 0.5f;
+        public static final int MIN_ROTATION = 0;
+        public static final int MAX_ROTATION = 359;
     }
 
-    public static class Trail {
-        public static final String ATLAS = "spine/explosion.atlas";
-        public static final String JSON = "spine/explosion.json";
+        public static class MainAnimation {
+        public static final String ATLAS = "spine/main.atlas";
+        public static final String JSON = "spine/main.json";
     }
 
+    public static class MainMenu {
+        public static final String ATLAS = "spine/menu.atlas";
+        public static final String JSON = "spine/menu.json";
+    }
+
+    public static class CursorTrail {
+        public static final String ATLAS = "spine/trailDot.atlas";
+        public static final String JSON = "spine/trailDot.json";
+    }
 
     public static class Skin {
         public static final String JSON = "skin/default/skin/uiskin.json";
@@ -68,10 +80,6 @@ public class Constants {
         RUNNING,
         PAUSED,
         GAME_OVER;
-    }
-
-    public static class Audio {
-        public static final float DEFAULT_VOLUME = 1f;
     }
 
     public static enum HairColor {

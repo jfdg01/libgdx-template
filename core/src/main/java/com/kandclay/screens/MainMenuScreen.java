@@ -64,8 +64,8 @@ public class MainMenuScreen extends BaseScreen {
     }
 
     private void initializeAnimations() {
-        String atlasPath = Constants.Spinosaurus.ATLAS;
-        String skeletonPath = Constants.Spinosaurus.JSON;
+        String atlasPath = Constants.MainMenu.ATLAS;
+        String skeletonPath = Constants.MainMenu.JSON;
 
         skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
         state = spineAnimationHandler.createAnimationState(skeleton);

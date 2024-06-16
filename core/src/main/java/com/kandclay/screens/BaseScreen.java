@@ -113,38 +113,34 @@ public abstract class BaseScreen implements Screen {
     }
 
     private void createTrailDot(float x, float y) {
-        final int numberOfColors = 360;
-        final float saturation = 1.0f;
-        final float value = 1.0f;
-        final float alpha = 0.5f;
-
-        float hue = (trailDotCount % numberOfColors);
+        float hue = (trailDotCount % Constants.TrailDot.NUMBER_OF_COLORS);
 
         Color currentColor = new Color();
-        currentColor.fromHsv(hue, saturation, value);
-        currentColor.a = alpha;
+        currentColor.fromHsv(hue, Constants.TrailDot.SATURATION, Constants.TrailDot.VALUE);
+        currentColor.a = Constants.TrailDot.ALPHA;
 
-        String trailAtlasPath = Constants.Trail.ATLAS;
-        String trailSkeletonPath = Constants.Trail.JSON;
+        String trailAtlasPath = Constants.CursorTrail.ATLAS;
+        String trailSkeletonPath = Constants.CursorTrail.JSON;
 
         Skeleton trailSkeleton = spineAnimationHandler.createSkeleton(trailAtlasPath, trailSkeletonPath);
         AnimationState trailState = spineAnimationHandler.createAnimationState(trailSkeleton);
         SkeletonRenderer trailRenderer = new SkeletonRenderer();
         trailRenderer.setPremultipliedAlpha(true);
 
-        float randomScale = MathUtils.random(0.2f, 0.5f);
-        float randomRotation = MathUtils.random(0, 359); // Generate a random rotation between 0 and 360 degrees
+        float randomScale = MathUtils.random(Constants.TrailDot.MIN_SCALE, Constants.TrailDot.MAX_SCALE);
+        float randomRotation = MathUtils.random(Constants.TrailDot.MIN_ROTATION, Constants.TrailDot.MAX_ROTATION);
 
         trailSkeleton.setPosition(x, y);
         trailSkeleton.setColor(currentColor);
-        trailSkeleton.setScale(randomScale, randomScale); // Apply the random scale
-        trailSkeleton.getRootBone().setRotation(randomRotation); // Apply the random rotation to the root bone
+        trailSkeleton.setScale(randomScale, randomScale);
+        trailSkeleton.getRootBone().setRotation(randomRotation);
 
         trailState.setAnimation(0, "animation", false);
 
         trailDots.add(new TrailDot(trailSkeleton, trailState, trailRenderer, x, y));
         trailDotCount++;
     }
+
 
     private static class TrailDot {
         public Skeleton skeleton;

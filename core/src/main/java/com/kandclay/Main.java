@@ -49,36 +49,19 @@ public class Main extends ApplicationAdapter {
     }
 
     private void loadInitialAssets() {
-        String[] textures = {
-            "sprites/static/backgroundSimple.png",
-            "sprites/anim/earth.png",
-            "sprites/anim/saturn.png",
-            "sprites/anim/moon.png",
-            "sprites/anim/sun.png",
-            "sprites/anim/uranus.png",
-            "sprites/anim/venus.png",
-            "sprites/anim/jupiter.png",
-            "sprites/anim/mars.png",
-            "sprites/anim/neptune.png",
-            "sprites/anim/mercury.png",
-        };
-        for (String texture : textures) {
-            assetManager.load(texture, Texture.class);
-        }
 
+        assetManager.load("sprites/anim/neptune.png", Texture.class);
         assetManager.load(Constants.Skin.JSON, Skin.class);
-        assetManager.load(Constants.KnifePlanet.ATLAS, TextureAtlas.class);
-        assetManager.load(Constants.KnifePlanet2.ATLAS, TextureAtlas.class);
-        assetManager.load(Constants.Spinosaurus.ATLAS, TextureAtlas.class);
-        assetManager.load(Constants.Trail.ATLAS, TextureAtlas.class);
-        assetManager.load("cursor.png", Pixmap.class);
+        assetManager.load(Constants.MainMenu.ATLAS, TextureAtlas.class);
+        assetManager.load(Constants.CursorTrail.ATLAS, TextureAtlas.class);
+        assetManager.load(Constants.MainAnimation.ATLAS, TextureAtlas.class);
 
         assetManager.finishLoading();
     }
 
     private void loadCustomCursor() {
         Pixmap pixmap = new Pixmap(Gdx.files.internal("cursor.png"));
-        Cursor cursor = Gdx.graphics.newCursor(pixmap, 0,0);
+        Cursor cursor = Gdx.graphics.newCursor(pixmap, Constants.Cursor.HOTSPOT_X, Constants.Cursor.HOTSPOT_Y);
         Gdx.graphics.setCursor(cursor);
         pixmap.dispose();
     }

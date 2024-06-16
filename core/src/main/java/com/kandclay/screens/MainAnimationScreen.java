@@ -146,8 +146,8 @@ public class MainAnimationScreen extends BaseScreen {
     }
 
     private void initializeAnimations() {
-        String atlasPath = Constants.KnifePlanet2.ATLAS;
-        String skeletonPath = Constants.KnifePlanet2.JSON;
+        String atlasPath = Constants.MainAnimation.ATLAS;
+        String skeletonPath = Constants.MainAnimation.JSON;
 
         skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
         state = spineAnimationHandler.createAnimationState(skeleton);
