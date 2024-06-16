@@ -102,6 +102,10 @@ public class Constants {
             return vals[(this.ordinal() + 1) % vals.length];
         }
     }
+
+    public class Font {
+        public static final String PATH = "fonts/Playground.ttf";
+    }
 }
 
 

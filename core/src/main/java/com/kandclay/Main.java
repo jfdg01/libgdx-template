@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.kandclay.handlers.SpriteSheetAnimationHandler;
 import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.managers.AudioManager;
@@ -19,7 +22,6 @@ import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
 import com.kandclay.utils.Constants.ScreenType;
 
-import java.util.Random;
 
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -41,45 +43,46 @@ public class Main extends ApplicationAdapter {
 
         loadInitialAssets();
 
-        loadCustomCursor();
 
         screenManager.setScreen(ScreenType.MENU);
-        // loadAndPlayRandomMusic();
     }
 
     private void loadInitialAssets() {
-
         assetManager.load(Constants.Skin.JSON, Skin.class);
         assetManager.load(Constants.MainMenu.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.CursorTrail.ATLAS, TextureAtlas.class);
-        // assetManager.load(Constants.MainAnimation.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.Coin.Yellow.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.Coin.Red.ATLAS, TextureAtlas.class);
 
         assetManager.finishLoading();
+        addFontsToSkin();
     }
 
-    private void loadCustomCursor() {
-        Pixmap pixmap = new Pixmap(Gdx.files.internal(Constants.Cursor.IMAGE_PATH));
-        Cursor cursor = Gdx.graphics.newCursor(pixmap, Constants.Cursor.HOTSPOT_X, Constants.Cursor.HOTSPOT_Y);
-        Gdx.graphics.setCursor(cursor);
-        pixmap.dispose();
+    private void addFontsToSkin() {
+        Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
+        BitmapFont snacktimeFont = generateFont(Constants.Font.PATH, 24);
+        skin.add("snacktime-font", snacktimeFont, BitmapFont.class);
+
+        Label.LabelStyle snacktimeLabelStyle = new Label.LabelStyle();
+        snacktimeLabelStyle.font = snacktimeFont;
+        skin.add("snacktime-label", snacktimeLabelStyle);
+
+        // Add ButtonStyle
+        TextButton.TextButtonStyle snacktimeButtonStyle = new TextButton.TextButtonStyle();
+        snacktimeButtonStyle.font = snacktimeFont;
+        snacktimeButtonStyle.up = skin.getDrawable("default-rect");
+        snacktimeButtonStyle.down = skin.getDrawable("default-rect-down");
+        snacktimeButtonStyle.checked = skin.getDrawable("default-rect");
+        skin.add("snacktime-button", snacktimeButtonStyle);
     }
 
-    private void loadAndPlayRandomMusic() {
-        FileHandle dirHandle = Gdx.files.internal("music");
-        Array<FileHandle> musicFiles = new Array<>(dirHandle.list("ogg"));
-        for (FileHandle file : musicFiles) {
-            audioManager.loadMusic(file.path());
-        }
-
-        audioManager.loadSound(Constants.Sounds.OOF);
-
-        Random random = new Random(System.nanoTime());
-        int randomIndex = random.nextInt(musicFiles.size);
-        String randomMusicFile = musicFiles.get(randomIndex).path();
-        Gdx.app.log("Playing music", randomMusicFile);
-        audioManager.playMusic(randomMusicFile, true);
+    private BitmapFont generateFont(String fontFile, int size) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose(); // Dispose the generator to free up resources
+        return font;
     }
 
     @Override
