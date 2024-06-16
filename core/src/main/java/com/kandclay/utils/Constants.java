@@ -62,6 +62,16 @@ public class Constants {
         public static final String JSON = "skin/default/skin/uiskin.json";
     }
 
+    public static class Coin {
+        public static final String ATLAS = "spine/coin.atlas";
+        public static final String JSON = "spine/coin.json";
+    }
+
+    public static class CoinRed {
+        public static final String ATLAS = "spine/coin-red.atlas";
+        public static final String JSON = "spine/coin-red.json";
+    }
+
     public static class Sounds {
         public static final String OOF = "sounds/sound.ogg";
     }
@@ -79,7 +89,7 @@ public class Constants {
     }
 
     public enum HairColor {
-        BLONDE, BRUNETTE, REDHEAD, BLACK, BROWN;
+        BLONDE, BRUNETTE, REDHEAD;
 
         private static HairColor[] vals = values();
         public HairColor next() {

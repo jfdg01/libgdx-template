@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -54,6 +53,8 @@ public class Main extends ApplicationAdapter {
         assetManager.load(Constants.MainMenu.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.CursorTrail.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.MainAnimation.ATLAS, TextureAtlas.class);
+        assetManager.load(Constants.Coin.ATLAS, TextureAtlas.class);
+        assetManager.load(Constants.CoinRed.ATLAS, TextureAtlas.class);
 
         assetManager.finishLoading();
     }
