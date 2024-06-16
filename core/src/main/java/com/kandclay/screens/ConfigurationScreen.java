@@ -7,13 +7,17 @@ import com.kandclay.handlers.SpineAnimationHandler;
 import com.kandclay.managers.ScreenManager;
 import com.kandclay.utils.Constants;
 
-public class ConfigurationSCreen extends BaseScreen {
+public class ConfigurationScreen extends BaseScreen {
 
     private Slider volumeSlider;
     private TextButton backButton;
-    private ScreenManager screenManager;
+    private TextButton hairColorButton;
+    private TextButton heightButton;
 
-    public ConfigurationSCreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
+    private Constants.HairColor currentHairColor = Constants.HairColor.BLONDE;
+    private Constants.Height currentHeight = Constants.Height.AVERAGE;
+
+    public ConfigurationScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(spineAnimationHandler, screenManager);
         this.screenManager = screenManager;
     }
@@ -39,8 +43,29 @@ public class ConfigurationSCreen extends BaseScreen {
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // Navigate back to the main menu
                 screenManager.setScreen(Constants.ScreenType.MENU);
+            }
+        });
+
+        // Create a hair color button
+        hairColorButton = new TextButton("Hair Color: " + currentHairColor, skin);
+        hairColorButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                currentHairColor = currentHairColor.next();
+                hairColorButton.setText("Hair Color: " + currentHairColor);
+                configManager.setPreference("hairColor", currentHairColor.toString());
+            }
+        });
+
+        // Create a height button
+        heightButton = new TextButton("Height: " + currentHeight, skin);
+        heightButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                currentHeight = currentHeight.next();
+                heightButton.setText("Height: " + currentHeight);
+                configManager.setPreference("height", currentHeight.toString());
             }
         });
 
@@ -51,6 +76,8 @@ public class ConfigurationSCreen extends BaseScreen {
         table.add(new Label("Options", skin)).padBottom(20).row();
         table.add(new Label("Volume", skin)).padBottom(10).row();
         table.add(volumeSlider).width(300).padBottom(20).row();
+        table.add(hairColorButton).width(300).height(50).padBottom(20).row();
+        table.add(heightButton).width(300).height(50).padBottom(20).row();
         table.add(backButton).width(150).height(50).padTop(10);
 
         stage.addActor(table);
@@ -61,3 +88,4 @@ public class ConfigurationSCreen extends BaseScreen {
         super.render(delta);
     }
 }
+

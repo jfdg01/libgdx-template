@@ -73,6 +73,24 @@ public class Constants {
     public static class Audio {
         public static final float DEFAULT_VOLUME = 1f;
     }
+
+    public static enum HairColor {
+        BLONDE, BRUNETTE, REDHEAD, BLACK, BROWN;
+
+        private static HairColor[] vals = values();
+        public HairColor next() {
+            return vals[(this.ordinal() + 1) % vals.length];
+        }
+    }
+
+    public static enum Height {
+        SHORT, AVERAGE, TALL;
+
+        private static Height[] vals = values();
+        public Height next() {
+            return vals[(this.ordinal() + 1) % vals.length];
+        }
+    }
 }
 
 

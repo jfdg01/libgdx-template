@@ -33,7 +33,7 @@ public class ScreenManager {
                 currentScreen = new MainAnimationScreen(spineAnimationHandler, this);
                 break;
             case OPTIONS:
-                currentScreen = new ConfigurationSCreen(spineAnimationHandler, this);
+                currentScreen = new ConfigurationScreen(spineAnimationHandler, this);
                 break;
         }
         currentScreen.show();
