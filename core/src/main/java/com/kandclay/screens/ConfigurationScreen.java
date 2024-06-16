@@ -1,5 +1,6 @@
 package com.kandclay.screens;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -19,6 +20,8 @@ public class ConfigurationScreen extends BaseScreen {
     private Constants.Height currentHeight;
     private boolean isYellowCoin;
 
+    private SpriteBatch batch;  // Add SpriteBatch instance
+
     public ConfigurationScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         super(spineAnimationHandler, screenManager);
         this.screenManager = screenManager;
@@ -27,6 +30,8 @@ public class ConfigurationScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
+
+        batch = new SpriteBatch();  // Initialize the SpriteBatch
 
         Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
 
@@ -111,6 +116,22 @@ public class ConfigurationScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+
+        // Draw the stage which includes UI elements
+        stage.act(delta);
+        stage.draw();
+
+        batch.begin();  // Begin the batch for trail rendering
+        super.renderTrail(delta, batch);  // Pass the batch to renderTrail
+        batch.end();  // End the batch after trail rendering
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        if (batch != null) {
+            batch.dispose();  // Dispose the SpriteBatch
+        }
     }
 }
 

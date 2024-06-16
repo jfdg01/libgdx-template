@@ -230,7 +230,7 @@ public class MainAnimationScreen extends BaseScreen {
         // Start a new batch for rendering the animation
         batch.begin();
         renderer.draw(batch, skeleton);
-        super.renderTrail(delta, batch);  // Pass the batch to renderTrail
+        super.renderTrail(delta, batch);
         batch.end();
 
         // Draw the stage which includes UI elements
