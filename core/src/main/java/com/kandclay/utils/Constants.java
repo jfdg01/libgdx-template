@@ -63,13 +63,15 @@ public class Constants {
     }
 
     public static class Coin {
-        public static final String ATLAS = "spine/coin.atlas";
-        public static final String JSON = "spine/coin.json";
-    }
+        public static class Yellow {
+            public static final String ATLAS = "spine/coin-yellow.atlas";
+            public static final String JSON = "spine/coin-yellow.json";
+        }
 
-    public static class CoinRed {
-        public static final String ATLAS = "spine/coin-red.atlas";
-        public static final String JSON = "spine/coin-red.json";
+        public static class Red {
+            public static final String ATLAS = "spine/coin-red.atlas";
+            public static final String JSON = "spine/coin-red.json";
+        }
     }
 
     public static class Sounds {

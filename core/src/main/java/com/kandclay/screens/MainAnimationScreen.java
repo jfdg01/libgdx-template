@@ -29,6 +29,7 @@ public class MainAnimationScreen extends BaseScreen {
     private TextButton backButton;
     private Slider slider;
     private TextButton modeButton;
+    private TextButton changeColorButton;
     private BitmapFont font;
 
     private boolean isLooping = true; // Set initial state to automatic (looping)
@@ -52,7 +53,7 @@ public class MainAnimationScreen extends BaseScreen {
         // Load the coin color preference
         isYellowCoin = configManager.getPreference("coinColor", true);
 
-        initializeAnimations();
+        initializeAnimations(0f);  // Start with the initial state time
 
         // Set up the camera
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -102,6 +103,15 @@ public class MainAnimationScreen extends BaseScreen {
             }
         });
 
+        // Initialize change color button
+        changeColorButton = new TextButton("Change Coin Color", skin);
+        changeColorButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                toggleCoinColor();
+            }
+        });
+
         // Initialize speed control buttons
         TextButton speed1xButton = new TextButton("1x", skin);
         speed1xButton.addListener(new ChangeListener() {
@@ -130,20 +140,6 @@ public class MainAnimationScreen extends BaseScreen {
             }
         });
 
-        TextButton changeColorButton = new TextButton("Change Coin Color", skin);
-        changeColorButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                toggleCoinColor();
-            }
-        });
-
-        //Table for controlling aniamtion type
-        Table topTable = new Table();
-        topTable.setFillParent(true);
-        topTable.top();
-        topTable.add(changeColorButton).pad(Constants.Buttons.PADDING);
-
         // Create control table for speed buttons
         Table controlTable = new Table();
         controlTable.top().left();
@@ -166,6 +162,12 @@ public class MainAnimationScreen extends BaseScreen {
         backButtonTable.bottom().left();
         backButtonTable.add(backButton).width(Constants.Buttons.BACK_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).pad(Constants.Buttons.PADDING);
 
+        // Create table for change color button
+        Table topTable = new Table();
+        topTable.setFillParent(true);
+        topTable.top();
+        topTable.add(changeColorButton).pad(Constants.Buttons.PADDING);
+
         // Add all tables to the stage
         stage.addActor(controlTable);
         stage.addActor(bottomTable);
@@ -177,15 +179,15 @@ public class MainAnimationScreen extends BaseScreen {
     }
 
     private void toggleCoinColor() {
+        float currentStateTime = state.getCurrent(0).getTrackTime();
         isYellowCoin = !isYellowCoin;
         configManager.setPreference("coinColor", isYellowCoin);
-        initializeAnimations();  // Re-initialize the animations with the new coin color
+        initializeAnimations(currentStateTime);  // Re-initialize the animations with the new coin color
     }
 
-
-    private void initializeAnimations() {
-        String atlasPath = isYellowCoin ? Constants.Coin.ATLAS : Constants.CoinRed.ATLAS;
-        String skeletonPath = isYellowCoin ? Constants.Coin.JSON : Constants.CoinRed.JSON;
+    private void initializeAnimations(float stateTime) {
+        String atlasPath = isYellowCoin ? Constants.Coin.Yellow.ATLAS : Constants.Coin.Red.ATLAS;
+        String skeletonPath = isYellowCoin ? Constants.Coin.Yellow.JSON : Constants.Coin.Red.JSON;
 
         skeleton = spineAnimationHandler.createSkeleton(atlasPath, skeletonPath);
         state = spineAnimationHandler.createAnimationState(skeleton);
@@ -194,6 +196,9 @@ public class MainAnimationScreen extends BaseScreen {
         setSkeletonPosition();
 
         state.setAnimation(0, "animation", true);  // Loop the animation by default
+
+        // Set the state time to resume from the same frame
+        state.getCurrent(0).setTrackTime(stateTime);
 
         state.addListener(new AnimationState.AnimationStateAdapter() {
             @Override
