@@ -17,6 +17,9 @@ public class Constants {
         public static final int BUTTON_HEIGHT = 80;
         public static final int PADDING = 5;
         public static final int SLIDER_WIDTH = 300;
+        public static final int CONTROL_BUTTON_HEIGHT = 50;
+        public static final int BACK_BUTTON_WIDTH = 150;
+        public static final int CONTROL_BUTTON_WIDTH = 300;
     }
 
     public static class Audio {
@@ -26,6 +29,7 @@ public class Constants {
     public static class Cursor {
         public static final int HOTSPOT_X = 0;
         public static final int HOTSPOT_Y = 0;
+        public static final String IMAGE_PATH = "cursor.png";
     }
 
     public static class TrailDot {
@@ -39,7 +43,7 @@ public class Constants {
         public static final int MAX_ROTATION = 359;
     }
 
-        public static class MainAnimation {
+    public static class MainAnimation {
         public static final String ATLAS = "spine/main.atlas";
         public static final String JSON = "spine/main.json";
     }
@@ -62,14 +66,6 @@ public class Constants {
         public static final String OOF = "sounds/sound.ogg";
     }
 
-    public static class Counter {
-        public static class Button {
-            public static final int WIDTH = 800;
-            public static final int HEIGHT = 400;
-            public static final int PADDING = 10;
-        }
-    }
-
     public enum ScreenType {
         MENU,
         GAME,
@@ -82,7 +78,7 @@ public class Constants {
         GAME_OVER;
     }
 
-    public static enum HairColor {
+    public enum HairColor {
         BLONDE, BRUNETTE, REDHEAD, BLACK, BROWN;
 
         private static HairColor[] vals = values();
@@ -91,7 +87,7 @@ public class Constants {
         }
     }
 
-    public static enum Height {
+    public enum Height {
         SHORT, AVERAGE, TALL;
 
         private static Height[] vals = values();

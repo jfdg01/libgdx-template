@@ -73,12 +73,12 @@ public class ConfigurationScreen extends BaseScreen {
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-        table.add(new Label("Options", skin)).padBottom(20).row();
-        table.add(new Label("Volume", skin)).padBottom(10).row();
-        table.add(volumeSlider).width(300).padBottom(20).row();
-        table.add(hairColorButton).width(300).height(50).padBottom(20).row();
-        table.add(heightButton).width(300).height(50).padBottom(20).row();
-        table.add(backButton).width(150).height(50).padTop(10);
+        table.add(new Label("Options", skin)).padBottom(Constants.Buttons.PADDING).row();
+        table.add(new Label("Volume", skin)).padBottom(Constants.Buttons.PADDING).row();
+        table.add(volumeSlider).width(Constants.Buttons.SLIDER_WIDTH).padBottom(Constants.Buttons.PADDING).row();
+        table.add(hairColorButton).width(Constants.Buttons.CONTROL_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).padBottom(Constants.Buttons.PADDING).row();
+        table.add(heightButton).width(Constants.Buttons.CONTROL_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).padBottom(Constants.Buttons.PADDING).row();
+        table.add(backButton).width(Constants.Buttons.BACK_BUTTON_WIDTH).height(Constants.Buttons.CONTROL_BUTTON_HEIGHT).padTop(Constants.Buttons.PADDING);
 
         stage.addActor(table);
     }
