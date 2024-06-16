@@ -32,6 +32,7 @@ public abstract class BaseScreen implements Screen {
     protected ScreenManager screenManager;
     private SnapshotArray<TrailDot> trailDots;
     private int trailDotCount = 0;
+    protected SpriteBatch batch;
 
     public BaseScreen(SpineAnimationHandler spineAnimationHandler, ScreenManager screenManager) {
         this.assetManager = MyAssetManager.getInstance();
@@ -41,6 +42,7 @@ public abstract class BaseScreen implements Screen {
         this.screenManager = screenManager;
         this.stage = new Stage(new ScreenViewport());
         this.trailDots = new SnapshotArray<>();
+        this.batch = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
 
         stage.addListener(new InputListener() {
@@ -65,11 +67,9 @@ public abstract class BaseScreen implements Screen {
     @Override
     public void render(float delta) {
         clearScreen();
-        stage.act(delta);
-        stage.draw();
     }
 
-    void renderTrail(float delta, SpriteBatch batch) {
+    void renderTrail(float delta) {
         Iterator<TrailDot> iterator = trailDots.iterator();
         while (iterator.hasNext()) {
             TrailDot trailDot = iterator.next();
@@ -85,7 +85,6 @@ public abstract class BaseScreen implements Screen {
             }
         }
     }
-
 
     @Override
     public void resize(int width, int height) {
@@ -110,6 +109,9 @@ public abstract class BaseScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        if (batch != null) {
+            batch.dispose();
+        }
     }
 
     private void createTrailDot(float x, float y) {
@@ -140,7 +142,6 @@ public abstract class BaseScreen implements Screen {
         trailDots.add(new TrailDot(trailSkeleton, trailState, trailRenderer, x, y));
         trailDotCount++;
     }
-
 
     private static class TrailDot {
         public Skeleton skeleton;

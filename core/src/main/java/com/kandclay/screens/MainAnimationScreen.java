@@ -18,7 +18,6 @@ import com.kandclay.managers.*;
 
 public class MainAnimationScreen extends BaseScreen {
     private OrthographicCamera camera;
-    private SpriteBatch batch;
     private SkeletonRenderer renderer;
     private SpineAnimationHandler spineAnimationHandler;
 
@@ -46,7 +45,6 @@ public class MainAnimationScreen extends BaseScreen {
         super.show();
 
         camera = new OrthographicCamera();
-        batch = new SpriteBatch();
         renderer = new SkeletonRenderer();
         renderer.setPremultipliedAlpha(true);
 
@@ -227,15 +225,15 @@ public class MainAnimationScreen extends BaseScreen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        // Start a new batch for rendering the animation
         batch.begin();
+        // Draw the animations
         renderer.draw(batch, skeleton);
-        super.renderTrail(delta, batch);
-        batch.end();
-
-        // Draw the stage which includes UI elements
+        // Draw the UI
         stage.act(delta);
         stage.draw();
+        // Draw the trail
+        super.renderTrail(delta);
+        batch.end();
     }
 
     @Override
@@ -256,7 +254,6 @@ public class MainAnimationScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
-        batch.dispose();
         font.dispose();
     }
 }

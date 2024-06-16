@@ -20,7 +20,6 @@ import com.kandclay.utils.Constants;
 public class MainMenuScreen extends BaseScreen {
 
     private OrthographicCamera camera;
-    private SpriteBatch batch;
     private SkeletonRenderer renderer;
     private Skeleton skeleton;
     private AnimationState state;
@@ -39,7 +38,6 @@ public class MainMenuScreen extends BaseScreen {
         super.show();
 
         camera = new OrthographicCamera();
-        batch = new SpriteBatch();
         renderer = new SkeletonRenderer();
         renderer.setPremultipliedAlpha(true);
 
@@ -162,11 +160,10 @@ public class MainMenuScreen extends BaseScreen {
 
         batch.begin();
         renderer.draw(batch, skeleton);
-        super.renderTrail(delta, batch);
+        super.renderTrail(delta);
         batch.end();
 
         setSkeletonPosition();
-
     }
 
     @Override
@@ -186,7 +183,6 @@ public class MainMenuScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
-        batch.dispose();
         font.dispose();
     }
 }
