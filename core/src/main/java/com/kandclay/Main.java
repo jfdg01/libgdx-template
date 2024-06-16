@@ -78,7 +78,7 @@ public class Main extends ApplicationAdapter {
 
     private void loadCustomCursor() {
         Pixmap pixmap = new Pixmap(Gdx.files.internal("cursor.png"));
-        Cursor cursor = Gdx.graphics.newCursor(pixmap, pixmap.getWidth() / 2, pixmap.getHeight() / 2);
+        Cursor cursor = Gdx.graphics.newCursor(pixmap, 0,0);
         Gdx.graphics.setCursor(cursor);
         pixmap.dispose();
     }
