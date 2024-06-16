@@ -130,6 +130,20 @@ public class MainAnimationScreen extends BaseScreen {
             }
         });
 
+        TextButton changeColorButton = new TextButton("Change Coin Color", skin);
+        changeColorButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                toggleCoinColor();
+            }
+        });
+
+        //Table for controlling aniamtion type
+        Table topTable = new Table();
+        topTable.setFillParent(true);
+        topTable.top();
+        topTable.add(changeColorButton).pad(Constants.Buttons.PADDING);
+
         // Create control table for speed buttons
         Table controlTable = new Table();
         controlTable.top().left();
@@ -156,10 +170,18 @@ public class MainAnimationScreen extends BaseScreen {
         stage.addActor(controlTable);
         stage.addActor(bottomTable);
         stage.addActor(backButtonTable);
+        stage.addActor(topTable);
 
         // Initialize font
         font = new BitmapFont();
     }
+
+    private void toggleCoinColor() {
+        isYellowCoin = !isYellowCoin;
+        configManager.setPreference("coinColor", isYellowCoin);
+        initializeAnimations();  // Re-initialize the animations with the new coin color
+    }
+
 
     private void initializeAnimations() {
         String atlasPath = isYellowCoin ? Constants.Coin.ATLAS : Constants.CoinRed.ATLAS;
