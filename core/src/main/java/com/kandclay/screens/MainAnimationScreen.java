@@ -29,7 +29,6 @@ public class MainAnimationScreen extends BaseScreen {
     private Slider slider;
     private TextButton modeButton;
     private TextButton changeColorButton;
-    private BitmapFont font;
 
     private boolean isLooping = true; // Set initial state to automatic (looping)
     private float speedMultiplier = 1f;
@@ -59,7 +58,7 @@ public class MainAnimationScreen extends BaseScreen {
         Skin skin = assetManager.get(Constants.Skin.JSON, Skin.class);
 
         // Initialize back button
-        backButton = new TextButton("Back to Menu", skin);
+        backButton = new TextButton("Back to Menu", skin, "snacktime-button");
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -86,7 +85,7 @@ public class MainAnimationScreen extends BaseScreen {
         });
 
         // Initialize mode button
-        modeButton = new TextButton("Switch to Manual Mode", skin);
+        modeButton = new TextButton("Switch to Manual Mode", skin, "snacktime-button");
         modeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -102,7 +101,7 @@ public class MainAnimationScreen extends BaseScreen {
         });
 
         // Initialize change color button
-        changeColorButton = new TextButton("Change Coin Color", skin);
+        changeColorButton = new TextButton("Change Coin Color", skin, "snacktime-button");
         changeColorButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -111,7 +110,7 @@ public class MainAnimationScreen extends BaseScreen {
         });
 
         // Initialize speed control buttons
-        TextButton speed1xButton = new TextButton("1x", skin);
+        TextButton speed1xButton = new TextButton("1x", skin, "snacktime-button");
         speed1xButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -120,7 +119,7 @@ public class MainAnimationScreen extends BaseScreen {
             }
         });
 
-        TextButton speed2xButton = new TextButton("2x", skin);
+        TextButton speed2xButton = new TextButton("2x", skin, "snacktime-button");
         speed2xButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -129,7 +128,7 @@ public class MainAnimationScreen extends BaseScreen {
             }
         });
 
-        TextButton speed3xButton = new TextButton("3x", skin);
+        TextButton speed3xButton = new TextButton("3x", skin, "snacktime-button");
         speed3xButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -171,9 +170,6 @@ public class MainAnimationScreen extends BaseScreen {
         stage.addActor(bottomTable);
         stage.addActor(backButtonTable);
         stage.addActor(topTable);
-
-        // Initialize font
-        font = new BitmapFont();
     }
 
     private void toggleCoinColor() {
@@ -254,6 +250,5 @@ public class MainAnimationScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
-        font.dispose();
     }
 }
