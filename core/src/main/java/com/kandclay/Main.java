@@ -50,7 +50,6 @@ public class Main extends ApplicationAdapter {
 
     private void loadInitialAssets() {
 
-        assetManager.load("sprites/anim/neptune.png", Texture.class);
         assetManager.load(Constants.Skin.JSON, Skin.class);
         assetManager.load(Constants.MainMenu.ATLAS, TextureAtlas.class);
         assetManager.load(Constants.CursorTrail.ATLAS, TextureAtlas.class);
